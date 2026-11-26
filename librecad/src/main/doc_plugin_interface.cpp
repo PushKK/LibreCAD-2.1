@@ -236,6 +236,7 @@ void Plugin_Entity::getData(QHash<int, QVariant> *data){
     data->insert(DPI::LAYER, entity->getLayer()->getName() );
     data->insert(DPI::LTYPE, Converter.lt2str(entity->getPen(false).getLineType()) );
     data->insert(DPI::LWIDTH, Converter.lw2str(entity->getPen(false).getWidth()) );
+    data->insert(DPI::HANDLE, entity->getHandle());
     data->insert(DPI::COLOR, entity->getPen(false).getColor().toIntColor() );
     data->insert(DPI::VISIBLE, (entity->isVisible()) ? 1 : 0 );
     switch (et) {

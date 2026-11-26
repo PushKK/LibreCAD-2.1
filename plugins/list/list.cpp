@@ -75,7 +75,14 @@ QString LC_List::getStrData(Plug_Entity *ent) {
     strData.append( strCommon.arg(tr("Color")).arg( ent->intColor2str(col) ));
     strData.append( strCommon.arg(tr("Line type")).arg(data.value(DPI::LTYPE).toString()));
     strData.append( strCommon.arg(tr("Line thickness")).arg(data.value(DPI::LWIDTH).toString()));
-    strData.append( strCommon.arg(tr("ID")).arg(data.value(DPI::EID).toLongLong()));
+// Вывод Handle в двоичном/десятичном форматах
+    unsigned int handle = data.value(DPI::HANDLE).toUInt();
+    if (handle != 0) {
+        strData.append(strCommon.arg(tr("ID")).arg(QString("%1 / №%2").arg(handle, 0, 16).toUpper().arg(handle)));
+    }
+// TODO Check old value
+//    strData.append( strCommon.arg(tr("ID")).arg(data.value(DPI::EID).toLongLong()));
+
 
     //specific entity data
     int et = data.value(DPI::ETYPE).toInt();

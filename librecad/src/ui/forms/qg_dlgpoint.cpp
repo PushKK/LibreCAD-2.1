@@ -15,14 +15,15 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 **
-** This copyright notice MUST APPEAR in all copies of the script!  
+** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #include "qg_dlgpoint.h"
 
 #include "rs_point.h"
@@ -62,6 +63,10 @@ void QG_DlgPoint::languageChange()
 }
 
 void QG_DlgPoint::setPoint(RS_Point& p) {
+    if (p.getHandle() != 0) {
+// Вывод Handle в двоичном/десятичном форматах
+        setWindowTitle(windowTitle() + QString(" [ID: %1 / №%2]").arg(p.getHandle(), 0, 16).toUpper().arg(p.getHandle()));
+    }
     point = &p;
 
     wPen->setPen(point->getPen(false), true, false, "Pen");

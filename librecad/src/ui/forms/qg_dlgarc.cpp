@@ -15,14 +15,15 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 **
-** This copyright notice MUST APPEAR in all copies of the script!  
+** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #include "qg_dlgarc.h"
 
 #include "rs_arc.h"
@@ -62,6 +63,10 @@ void QG_DlgArc::languageChange()
 }
 
 void QG_DlgArc::setArc(RS_Arc& a) {
+    if (a.getHandle() != 0) {
+// Вывод Handle в двоичном/десятичном форматах
+        setWindowTitle(windowTitle() + QString(" [ID: %1 / №%2]").arg(a.getHandle(), 0, 16).toUpper().arg(a.getHandle()));
+    }
     arc = &a;
     //pen = arc->getPen();
     wPen->setPen(arc->getPen(false), true, false, "Pen");

@@ -110,7 +110,8 @@ namespace DPI {
         CLOSEPOLY=70,   /*!< int: closed polyline 0=open, 1=closed */
         TXTALIGNH=72,   /*!< enum: horizontal alignment for text */
         TXTALIGNV=73,   /*!< enum: vertical alignment for text */
-        REVERSED=291 /*!< bool: true if arc is reversed (clockwise) */
+        REVERSED=291,   /*!< bool: true if arc is reversed (clockwise) */
+        HANDLE          /*!< HANDLE: ID of feature */
     };
 //Note about 24 bit RGB color:
 //    decimal integer 1632041, in hex 18 E7 29, in RGB dec 24,231,41

@@ -86,7 +86,7 @@ void RS_Entity::init() {
     setFlag(RS2::FlagVisible);
 	//layer = nullptr;
     //pen = RS_Pen();
-        updateEnabled = true;
+    updateEnabled = true;
     setLayerToActive();
     setPenToActive();
     initId();

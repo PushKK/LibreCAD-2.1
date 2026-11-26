@@ -26,6 +26,10 @@ void LC_DlgSplinePoints::languageChange()
 
 void LC_DlgSplinePoints::setSpline(LC_SplinePoints& b)
 {
+    if (b.getHandle() != 0) {
+// Вывод Handle в двоичном/десятичном форматах
+        setWindowTitle(windowTitle() + QString(" [ID: %1 / №%2]").arg(b.getHandle(), 0, 16).toUpper().arg(b.getHandle()));
+    }
 	bezier = &b;
 	//pen = spline->getPen();
 	ui->wPen->setPen(b.getPen(false), true, false, "Pen");
@@ -99,5 +103,4 @@ void LC_DlgSplinePoints::updateSpline()
 	}
 	bezier->update();
 }
-
 

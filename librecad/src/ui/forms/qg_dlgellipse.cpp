@@ -15,14 +15,15 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 **
-** This copyright notice MUST APPEAR in all copies of the script!  
+** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #include "qg_dlgellipse.h"
 
 #include "rs_ellipse.h"
@@ -62,6 +63,10 @@ void QG_DlgEllipse::languageChange()
 }
 
 void QG_DlgEllipse::setEllipse(RS_Ellipse& e) {
+    if (e.getHandle() != 0) {
+// Вывод Handle в двоичном/десятичном форматах
+        setWindowTitle(windowTitle() + QString(" [ID: %1 / №%2]").arg(e.getHandle(), 0, 16).toUpper().arg(e.getHandle()));
+    }
     ellipse = &e;
     //pen = ellipse->getPen();
     wPen->setPen(ellipse->getPen(false), true, false, "Pen");

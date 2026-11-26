@@ -100,6 +100,9 @@ public:
         return id;
     }
 
+    unsigned int getHandle() const { return handle; }
+    void setHandle(unsigned int h) { handle = h; }
+
     /**
      * This method must be overwritten in subclasses and return the
      * number of <b>atomic</b> entities in this entity.
@@ -570,6 +573,9 @@ protected:
 
     //! Pointer to layer
     RS_Layer* layer;
+
+    //! Pointer to Handle
+    unsigned int handle = 0;
 
     //! Entity id
     unsigned long int id;
