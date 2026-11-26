@@ -23,6 +23,7 @@
 ** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #include "qg_dlgmtext.h"
 
 #include <QTextCodec>
@@ -123,6 +124,9 @@ void QG_DlgMText::destroy() {
  * Sets the text entity represented by this dialog.
  */
 void QG_DlgMText::setText(RS_MText& t, bool isNew) {
+    cbFont->clear();
+    cbFont->init();
+
     text = &t;
     this->isNew = isNew;
 

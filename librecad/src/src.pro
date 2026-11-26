@@ -18,6 +18,7 @@ GENERATED_DIR = ../../generated/librecad
 include(../../common.pri)
 include(./boost.pri)
 include(./muparser.pri)
+include(./freetype.pri)
 
 CONFIG += qt \
     warn_on \
@@ -39,6 +40,8 @@ PRE_TARGETDEPS += $$GEN_LIB_DIR/libdxfrw.a \
 		$$GEN_LIB_DIR/libjwwlib.a
 
 DESTDIR = $${INSTALLDIR}
+TARGET = LibreCAD
+DEFINES += QC_APPDIR="\"LibreCAD\""
 
 # Make translations at the end of the process
 unix {
@@ -585,6 +588,7 @@ RESOURCES += ../res/icons/icons.qrc
 # ################################################################################
 # UI
 HEADERS += ui/forms/lc_dlgsplinepoints.h \
+    ui/forms/lc_dlgttf2lff.h \
     ui/forms/lc_widgetoptionsdialog.h \
     ui/forms/qg_activelayername.h \
     ui/forms/qg_arcoptions.h \
@@ -687,6 +691,7 @@ HEADERS += ui/forms/lc_dlgsplinepoints.h \
 
 SOURCES += ui/lc_actionfactory.cpp \
     ui/forms/lc_dlgsplinepoints.cpp \
+    ui/forms/lc_dlgttf2lff.cpp \
     ui/forms/lc_widgetoptionsdialog.cpp \
     ui/forms/qg_activelayername.cpp \
     ui/forms/qg_arcoptions.cpp \

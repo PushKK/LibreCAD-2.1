@@ -15,18 +15,22 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 **
-** This copyright notice MUST APPEAR in all copies of the script!  
+** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
 #include "qg_dlgoptionsgeneral.h"
 
-#include <QMessageBox>
 #include <QColorDialog>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QStyle>
+#include <QToolButton>
+
 #include "rs_system.h"
 #include "rs_settings.h"
 #include "rs_units.h"
@@ -120,7 +124,7 @@ void QG_DlgOptionsGeneral::init()
 
     bool cursor_hiding = RS_SETTINGS->readNumEntry("/cursor_hiding", 0);
     cursor_hiding_checkbox->setChecked(cursor_hiding);
-    
+
     // scale grid:
     QString scaleGrid = RS_SETTINGS->readEntry("/ScaleGrid", "1");
     cbScaleGrid->setChecked(scaleGrid=="1");
@@ -154,7 +158,20 @@ void QG_DlgOptionsGeneral::init()
 
     lePathTranslations->setText(RS_SETTINGS->readEntry("/Translations", ""));
     lePathHatch->setText(RS_SETTINGS->readEntry("/Patterns", ""));
+// Шрифты
     lePathFonts->setText(RS_SETTINGS->readEntry("/Fonts", ""));
+// Кнопка выбора путей к папке Шрифты
+    if (auto* grid = qobject_cast<QGridLayout*>(lePathFonts->parentWidget()->layout())) {
+        int idx = grid->indexOf(lePathFonts);
+        int row, col, rowSpan, colSpan;
+        grid->getItemPosition(idx, &row, &col, &rowSpan, &colSpan);
+        auto* btnFonts = new QToolButton(lePathFonts->parentWidget());
+        btnFonts->setIcon(btTemplate->icon());
+        btnFonts->setToolTip(tr("Select Fonts Folder"));
+        grid->addWidget(btnFonts, row, col + 1);
+        connect(btnFonts, &QToolButton::clicked, this, &QG_DlgOptionsGeneral::setFontsFolder);
+    }
+
     lePathLibrary->setText(RS_SETTINGS->readEntry("/Library", "").trimmed());
     leTemplate->setText(RS_SETTINGS->readEntry("/Template", "").trimmed());
     RS_SETTINGS->endGroup();
@@ -232,7 +249,7 @@ void QG_DlgOptionsGeneral::ok()
         RS_SETTINGS->writeEntry("/LanguageCmd",cbLanguageCmd->itemData(cbLanguageCmd->currentIndex()));
         RS_SETTINGS->writeEntry("/indicator_lines_state", indicator_lines_checkbox->isChecked());
         RS_SETTINGS->writeEntry("/indicator_lines_type", indicator_lines_combobox->currentText());
-        RS_SETTINGS->writeEntry("/indicator_shape_state", indicator_shape_checkbox->isChecked());      
+        RS_SETTINGS->writeEntry("/indicator_shape_state", indicator_shape_checkbox->isChecked());
         RS_SETTINGS->writeEntry("/indicator_shape_type", indicator_shape_combobox->currentText());
         RS_SETTINGS->writeEntry("/cursor_hiding", cursor_hiding_checkbox->isChecked());
         RS_SETTINGS->writeEntry("/Antialiasing", cb_antialiasing->isChecked()?1:0);
@@ -374,4 +391,12 @@ void QG_DlgOptionsGeneral::on_pb_clear_geometry_clicked()
 {
     RS_SETTINGS->clear_geometry();
     QMessageBox::information(this, "info", "You must restart LibreCAD to see the changes.");
+}
+
+void QG_DlgOptionsGeneral::setFontsFolder() {
+    QString dir = QFileDialog::getExistingDirectory(
+        this, tr("Select Fonts Directory"), lePathFonts->text());
+    if (!dir.isEmpty()) {
+        lePathFonts->setText(QDir::toNativeSeparators(dir));
+    }
 }

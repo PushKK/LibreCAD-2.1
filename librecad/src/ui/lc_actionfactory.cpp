@@ -1013,11 +1013,6 @@ void LC_ActionFactory::fillActionContainer(QMap<QString, QAction*>& a_map, LC_Ac
 
     // <[~ Misc ~]>
 
-    action = new QAction(tr("Export as &MakerCAM SVG..."), agm->file);
-    connect(action, SIGNAL(triggered()), action_handler, SLOT(slotFileExportMakerCam()));
-    action->setObjectName("FileExportMakerCam");
-    a_map["FileExportMakerCam"] = action;
-
 //    action = new QAction(tr("Regenerate Dimension Entities"), disable_group);
 //    connect(action, SIGNAL(triggered()), action_handler, SLOT(slotToolRegenerateDimensions()));
 //    action->setObjectName("ToolRegenerateDimensions");
@@ -1028,13 +1023,6 @@ void LC_ActionFactory::fillActionContainer(QMap<QString, QAction*>& a_map, LC_Ac
     // <[~ Main Window Actions ~]>
     // ===========================
 
-
-    action = new QAction(tr("&Export as image"), agm->file);
-    action->setIcon(QIcon(":/icons/export.svg"));
-    connect(action, SIGNAL( triggered()), main_window, SLOT(slotFileExport()));
-    action->setObjectName("FileExport");
-    a_map["FileExport"] = action;
-
     action = new QAction(tr("&Close"), agm->file);
     action->setIcon(QIcon(":/icons/close.svg"));
     action->setShortcut(QKeySequence::Close);
@@ -1042,17 +1030,41 @@ void LC_ActionFactory::fillActionContainer(QMap<QString, QAction*>& a_map, LC_Ac
     action->setObjectName("FileClose");
     a_map["FileClose"] = action;
 
+
+//Import
+// Import Block
+    action = new QAction(tr("&Block"), agm->file);
+    action->setIcon(QIcon(":/icons/insert_active_block.svg"));
+    connect(action, SIGNAL(triggered()), main_window, SLOT(slotImportBlock()));
+    action->setObjectName("BlocksImport");
+    a_map["BlocksImport"] = action;
+
+// Import Font
+    action = new QAction(tr("Import Font (TTF)..."), agm->file);
+    connect(action, SIGNAL(triggered()), main_window, SLOT(slotImportFont()));
+    action->setObjectName("FontImport");
+    a_map["FontImport"] = action;
+
+// Export
+// Export as SVG
+    action = new QAction(tr("Export as &MakerCAM SVG..."), agm->file);
+    connect(action, SIGNAL(triggered()), action_handler, SLOT(slotFileExportMakerCam()));
+    action->setObjectName("FileExportMakerCam");
+    a_map["FileExportMakerCam"] = action;
+
+// Export as PDF
     action = new QAction(tr("Export as PDF"), agm->file);
     action->setIcon(QIcon(":/icons/export_pdf.svg"));
     connect(action, SIGNAL(triggered()), main_window, SLOT(slotFilePrintPDF()));
     action->setObjectName("FilePrintPDF");
     a_map["FilePrintPDF"] = action;
 
-    action = new QAction(tr("&Block"), agm->file);
-    action->setIcon(QIcon(":/icons/insert_active_block.svg"));
-    connect(action, SIGNAL(triggered()), main_window, SLOT(slotImportBlock()));
-    action->setObjectName("BlocksImport");
-    a_map["BlocksImport"] = action;
+// Export as Image
+    action = new QAction(tr("&Export as image"), agm->file);
+    action->setIcon(QIcon(":/icons/export.svg"));
+    connect(action, SIGNAL( triggered()), main_window, SLOT(slotFileExport()));
+    action->setObjectName("FileExport");
+    a_map["FileExport"] = action;
 
     // <[~ View ~]>
 

@@ -25,44 +25,48 @@
 **
 **********************************************************************/
 
-
 #include "qc_applicationwindow.h"
 
-#include <QStatusBar>
-#include <QMenuBar>
+#include <QCoreApplication>
+#include <QDesktopServices>
+#include <QDir>
 #include <QDockWidget>
 #include <QFileDialog>
-#include <QMessageBox>
-#include <QTimer>
-#include <QSplitter>
-#include <QMdiArea>
-#include <QPluginLoader>
+#include <QFileInfo>
 #include <QImageWriter>
-#include <QtSvg>
-#include <QStyleFactory>
+#include <QMdiArea>
+#include <QMenuBar>
+#include <QMessageBox>
+#include <QPluginLoader>
 #include <QPrintDialog>
 #include <QRegExp>
+#include <QSplitter>
+#include <QStatusBar>
+#include <QStyleFactory>
 #include <QSysInfo>
+#include <QTimer>
+#include <QtSvg>
+#include <QUrl>
 
 #include "main.h"
 
 #include "rs_actionprintpreview.h"
+#include "lc_actionfactory.h"
+#include "qg_actionhandler.h"
+#include "rs_actionlibraryinsert.h"
+
 #include "rs_settings.h"
 #include "rs_staticgraphicview.h"
 #include "rs_system.h"
-#include "rs_actionlibraryinsert.h"
 #include "rs_painterqt.h"
 #include "rs_selection.h"
 #include "rs_document.h"
 
 #include "lc_centralwidget.h"
+#include "lc_widgetfactory.h"
 #include "qc_mdiwindow.h"
 #include "qg_graphicview.h"
 
-#include "lc_actionfactory.h"
-#include "qg_actionhandler.h"
-
-#include "lc_widgetfactory.h"
 #include "qg_snaptoolbar.h"
 #include "qg_blockwidget.h"
 #include "qg_layerwidget.h"
@@ -78,6 +82,7 @@
 
 #include "qg_recentfiles.h"
 #include "qg_dlgimageoptions.h"
+#include "lc_dlgttf2lff.h"
 #include "qg_filedialog.h"
 
 #include "rs_dialogfactory.h"
@@ -2343,7 +2348,7 @@ void QC_ApplicationWindow::slotOptionsGeneral() {
 
 
 /**
- * Menu File -> import -> importBlock
+ * Menu File -> Import -> Import Block
  */
 void QC_ApplicationWindow::slotImportBlock() {
     QG_FileDialog dlg(this);
@@ -2370,6 +2375,13 @@ void QC_ApplicationWindow::slotImportBlock() {
         RS_DEBUG->print(RS_Debug::D_ERROR,
                         "QC_ApplicationWindow::slotImportBlock: Can't read file: '%s'", dxfPath.toLatin1().data());
     }
+}
+
+// Импорт шрифта
+// Menu File -> Import -> Import Font
+void QC_ApplicationWindow::slotImportFont() {
+    LC_DlgTtf2Lff dlg(this);
+    dlg.exec();
 }
 
 

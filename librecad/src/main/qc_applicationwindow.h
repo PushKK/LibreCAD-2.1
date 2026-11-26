@@ -164,8 +164,10 @@ public slots:
     void slotViewStatusBar(bool toggle);
 
     void slotOptionsGeneral();
-
+// Импорт файла как блока
     void slotImportBlock();
+// Импорт шрифта
+    void slotImportFont();
 
     /** shows an about dlg*/
     void showAboutWindow();
