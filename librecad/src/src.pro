@@ -113,20 +113,24 @@ RESOURCES += ../res/extui/extui.qrc
 # ################################################################################
 # Library
 HEADERS += \
+    actions/lc_actiondrawcircle2pr.h \
+    actions/lc_actionfileexportmakercam.h \
     lib/actions/rs_actioninterface.h \
-    lib/actions/rs_preview.h \
     lib/actions/rs_previewactioninterface.h \
+    lib/actions/rs_preview.h \
     lib/actions/rs_snapper.h \
     lib/creation/rs_creation.h \
     lib/debug/rs_debug.h \
-    lib/engine/rs.h \
+    lib/engine/lc_hyperbola.h \
+    lib/engine/lc_rect.h \
+    lib/engine/lc_splinepoints.h \
     lib/engine/rs_arc.h \
     lib/engine/rs_atomicentity.h \
     lib/engine/rs_block.h \
     lib/engine/rs_blocklist.h \
     lib/engine/rs_blocklistlistener.h \
-    lib/engine/rs_clipboard.h \
     lib/engine/rs_circle.h \
+    lib/engine/rs_clipboard.h \
     lib/engine/rs_color.h \
     lib/engine/rs_constructionline.h \
     lib/engine/rs_dimaligned.h \
@@ -137,25 +141,25 @@ HEADERS += \
     lib/engine/rs_dimradial.h \
     lib/engine/rs_document.h \
     lib/engine/rs_ellipse.h \
-    lib/engine/rs_entity.h \
     lib/engine/rs_entitycontainer.h \
+    lib/engine/rs_entity.h \
     lib/engine/rs_flags.h \
-    lib/engine/rs_font.h \
     lib/engine/rs_fontchar.h \
+    lib/engine/rs_font.h \
     lib/engine/rs_fontlist.h \
     lib/engine/rs_graphic.h \
+    lib/engine/rs.h \
     lib/engine/rs_hatch.h \
-    lib/engine/lc_hyperbola.h \
-    lib/engine/rs_insert.h \
     lib/engine/rs_image.h \
+    lib/engine/rs_insert.h \
     lib/engine/rs_layer.h \
     lib/engine/rs_layerlist.h \
     lib/engine/rs_layerlistlistener.h \
     lib/engine/rs_leader.h \
     lib/engine/rs_line.h \
     lib/engine/rs_mtext.h \
-    lib/engine/rs_overlayline.h \
     lib/engine/rs_overlaybox.h \
+    lib/engine/rs_overlayline.h \
     lib/engine/rs_pattern.h \
     lib/engine/rs_patternlist.h \
     lib/engine/rs_pen.h \
@@ -164,29 +168,31 @@ HEADERS += \
     lib/engine/rs_settings.h \
     lib/engine/rs_solid.h \
     lib/engine/rs_spline.h \
-    lib/engine/lc_splinepoints.h \
     lib/engine/rs_system.h \
     lib/engine/rs_text.h \
-    lib/engine/rs_undo.h \
     lib/engine/rs_undoable.h \
     lib/engine/rs_undocycle.h \
+    lib/engine/rs_undo.h \
     lib/engine/rs_units.h \
     lib/engine/rs_utility.h \
-    lib/engine/rs_variable.h \
     lib/engine/rs_variabledict.h \
+    lib/engine/rs_variable.h \
     lib/engine/rs_vector.h \
     lib/fileio/rs_fileio.h \
     lib/filters/rs_filtercxf.h \
-    lib/filters/rs_filterdxfrw.h \
     lib/filters/rs_filterdxf1.h \
+    lib/filters/rs_filterdxfrw.h \
+    lib/filters/rs_filterinterface.h \
     lib/filters/rs_filterjww.h \
     lib/filters/rs_filterlff.h \
-    lib/filters/rs_filterinterface.h \
+    lib/generators/lc_makercamsvg.h \
+    lib/generators/lc_xmlwriterinterface.h \
+    lib/generators/lc_xmlwriterqxmlstreamwriter.h \
     lib/gui/rs_commandevent.h \
     lib/gui/rs_coordinateevent.h \
+    lib/gui/rs_dialogfactoryadapter.h \
     lib/gui/rs_dialogfactory.h \
     lib/gui/rs_dialogfactoryinterface.h \
-    lib/gui/rs_dialogfactoryadapter.h \
     lib/gui/rs_eventhandler.h \
     lib/gui/rs_graphicview.h \
     lib/gui/rs_grid.h \
@@ -195,36 +201,38 @@ HEADERS += \
     lib/gui/rs_painter.h \
     lib/gui/rs_painterqt.h \
     lib/gui/rs_staticgraphicview.h \
-    lib/information/rs_locale.h \
-    lib/information/rs_information.h \
     lib/information/rs_infoarea.h \
+    lib/information/rs_information.h \
+    lib/information/rs_locale.h \
+    lib/math/lc_quadratic.h \
+    lib/math/rs_math.h \
     lib/modification/rs_modification.h \
     lib/modification/rs_selection.h \
-    lib/math/rs_math.h \
-    lib/math/lc_quadratic.h \
-    actions/lc_actiondrawcircle2pr.h \
-    test/lc_simpletests.h \
-    lib/generators/lc_makercamsvg.h \
-    lib/generators/lc_xmlwriterinterface.h \
-    lib/generators/lc_xmlwriterqxmlstreamwriter.h \
-    actions/lc_actionfileexportmakercam.h \
-    lib/engine/lc_rect.h \
+    lib/printing/lc_printing.h \
     main/lc_options.h \
-    lib/printing/lc_printing.h
+    test/lc_simpletests.h
 
 SOURCES += \
+    actions/lc_actiondrawcircle2pr.cpp \
+    actions/lc_actionfileexportmakercam.cpp \
     lib/actions/rs_actioninterface.cpp \
-    lib/actions/rs_preview.cpp \
     lib/actions/rs_previewactioninterface.cpp \
+    lib/actions/rs_preview.cpp \
     lib/actions/rs_snapper.cpp \
     lib/creation/rs_creation.cpp \
     lib/debug/rs_debug.cpp \
+    lib/engine/lc_hyperbola.cpp \
+    lib/engine/lc_rect.cpp \
+    lib/engine/lc_splinepoints.cpp \
     lib/engine/rs_arc.cpp \
+    lib/engine/rs_atomicentity.cpp \
     lib/engine/rs_block.cpp \
     lib/engine/rs_blocklist.cpp \
-    lib/engine/rs_clipboard.cpp \
     lib/engine/rs_circle.cpp \
+    lib/engine/rs_clipboard.cpp \
+    lib/engine/rs_color.cpp \
     lib/engine/rs_constructionline.cpp \
+    lib/engine/rs.cpp \
     lib/engine/rs_dimaligned.cpp \
     lib/engine/rs_dimangular.cpp \
     lib/engine/rs_dimdiametric.cpp \
@@ -233,44 +241,47 @@ SOURCES += \
     lib/engine/rs_dimradial.cpp \
     lib/engine/rs_document.cpp \
     lib/engine/rs_ellipse.cpp \
-    lib/engine/rs_entity.cpp \
     lib/engine/rs_entitycontainer.cpp \
+    lib/engine/rs_entity.cpp \
+    lib/engine/rs_flags.cpp \
     lib/engine/rs_font.cpp \
     lib/engine/rs_fontlist.cpp \
     lib/engine/rs_graphic.cpp \
     lib/engine/rs_hatch.cpp \
-    lib/engine/lc_hyperbola.cpp \
-    lib/engine/rs_insert.cpp \
     lib/engine/rs_image.cpp \
+    lib/engine/rs_insert.cpp \
     lib/engine/rs_layer.cpp \
     lib/engine/rs_layerlist.cpp \
     lib/engine/rs_leader.cpp \
     lib/engine/rs_line.cpp \
     lib/engine/rs_mtext.cpp \
-    lib/engine/rs_overlayline.cpp \
     lib/engine/rs_overlaybox.cpp \
+    lib/engine/rs_overlayline.cpp \
     lib/engine/rs_pattern.cpp \
     lib/engine/rs_patternlist.cpp \
+    lib/engine/rs_pen.cpp \
     lib/engine/rs_point.cpp \
     lib/engine/rs_polyline.cpp \
     lib/engine/rs_settings.cpp \
     lib/engine/rs_solid.cpp \
     lib/engine/rs_spline.cpp \
-    lib/engine/lc_splinepoints.cpp \
     lib/engine/rs_system.cpp \
     lib/engine/rs_text.cpp \
-    lib/engine/rs_undo.cpp \
     lib/engine/rs_undoable.cpp \
+    lib/engine/rs_undo.cpp \
+    lib/engine/rs_undocycle.cpp \
     lib/engine/rs_units.cpp \
     lib/engine/rs_utility.cpp \
     lib/engine/rs_variabledict.cpp \
     lib/engine/rs_vector.cpp \
     lib/fileio/rs_fileio.cpp \
     lib/filters/rs_filtercxf.cpp \
-    lib/filters/rs_filterdxfrw.cpp \
     lib/filters/rs_filterdxf1.cpp \
+    lib/filters/rs_filterdxfrw.cpp \
     lib/filters/rs_filterjww.cpp \
     lib/filters/rs_filterlff.cpp \
+    lib/generators/lc_makercamsvg.cpp \
+    lib/generators/lc_xmlwriterqxmlstreamwriter.cpp \
     lib/gui/rs_dialogfactory.cpp \
     lib/gui/rs_eventhandler.cpp \
     lib/gui/rs_graphicview.cpp \
@@ -279,26 +290,15 @@ SOURCES += \
     lib/gui/rs_painter.cpp \
     lib/gui/rs_painterqt.cpp \
     lib/gui/rs_staticgraphicview.cpp \
-    lib/information/rs_locale.cpp \
-    lib/information/rs_information.cpp \
     lib/information/rs_infoarea.cpp \
-    lib/math/rs_math.cpp \
+    lib/information/rs_information.cpp \
+    lib/information/rs_locale.cpp \
     lib/math/lc_quadratic.cpp \
+    lib/math/rs_math.cpp \
     lib/modification/rs_modification.cpp \
     lib/modification/rs_selection.cpp \
-    lib/engine/rs_color.cpp \
-    lib/engine/rs_pen.cpp \
-    actions/lc_actiondrawcircle2pr.cpp \
-    test/lc_simpletests.cpp \
-    lib/generators/lc_xmlwriterqxmlstreamwriter.cpp \
-    lib/generators/lc_makercamsvg.cpp \
-    actions/lc_actionfileexportmakercam.cpp \
-    lib/engine/rs_atomicentity.cpp \
-    lib/engine/rs_undocycle.cpp \
-    lib/engine/rs_flags.cpp \
-    lib/engine/lc_rect.cpp \
-    lib/engine/rs.cpp \
-    lib/printing/lc_printing.cpp
+    lib/printing/lc_printing.cpp \
+    test/lc_simpletests.cpp
 
 # ################################################################################
 # Command
@@ -400,6 +400,7 @@ HEADERS += actions/rs_actionblocksadd.h \
     actions/rs_actionmodifymoverotate.h \
     actions/rs_actionmodifyoffset.h \
     actions/rs_actionmodifyrevertdirection.h \
+    actions/rs_actionmodifysortcontour.h \
     actions/rs_actionmodifyrotate.h \
     actions/rs_actionmodifyrotate2.h \
     actions/rs_actionmodifyround.h \
@@ -535,6 +536,7 @@ SOURCES += actions/rs_actionblocksadd.cpp \
     actions/rs_actionmodifymoverotate.cpp \
     actions/rs_actionmodifyoffset.cpp \
     actions/rs_actionmodifyrevertdirection.cpp \
+    actions/rs_actionmodifysortcontour.cpp \
     actions/rs_actionmodifyrotate.cpp \
     actions/rs_actionmodifyrotate2.cpp \
     actions/rs_actionmodifyround.cpp \
@@ -582,33 +584,16 @@ RESOURCES += ../res/icons/icons.qrc
 
 # ################################################################################
 # UI
-HEADERS += ui/lc_actionfactory.h \
-    ui/qg_actionhandler.h \
-    ui/qg_blockwidget.h \
-    ui/qg_colorbox.h \
-    ui/qg_commandedit.h \
-    ui/qg_dialogfactory.h \
-    ui/qg_filedialog.h \
-    ui/qg_fontbox.h \
-    ui/qg_graphicview.h \
-    ui/qg_layerbox.h \
-    ui/qg_layerwidget.h \
-    ui/qg_librarywidget.h \
-    ui/qg_linetypebox.h \
-    ui/qg_mainwindowinterface.h \
-    ui/qg_patternbox.h \
-    ui/qg_pentoolbar.h \
-    ui/qg_recentfiles.h \
-    ui/qg_scrollbar.h \
-    ui/qg_widthbox.h \
-    ui/lg_dimzerosbox.h \
+HEADERS += ui/forms/lc_dlgsplinepoints.h \
+    ui/forms/lc_widgetoptionsdialog.h \
+    ui/forms/qg_activelayername.h \
     ui/forms/qg_arcoptions.h \
     ui/forms/qg_arctangentialoptions.h \
     ui/forms/qg_beveloptions.h \
     ui/forms/qg_blockdialog.h \
-    ui/forms/qg_commandwidget.h \
     ui/forms/qg_circleoptions.h \
     ui/forms/qg_circletan2options.h \
+    ui/forms/qg_commandwidget.h \
     ui/forms/qg_coordinatewidget.h \
     ui/forms/qg_dimensionlabeleditor.h \
     ui/forms/qg_dimlinearoptions.h \
@@ -634,8 +619,8 @@ HEADERS += ui/lc_actionfactory.h \
     ui/forms/qg_dlgoptionsmakercam.h \
     ui/forms/qg_dlgpoint.h \
     ui/forms/qg_dlgpolyline.h \
-    ui/forms/qg_dlgrotate.h \
     ui/forms/qg_dlgrotate2.h \
+    ui/forms/qg_dlgrotate.h \
     ui/forms/qg_dlgscale.h \
     ui/forms/qg_dlgspline.h \
     ui/forms/qg_dlgtext.h \
@@ -656,51 +641,54 @@ HEADERS += ui/lc_actionfactory.h \
     ui/forms/qg_mousewidget.h \
     ui/forms/qg_moverotateoptions.h \
     ui/forms/qg_mtextoptions.h \
-    ui/forms/qg_polylineoptions.h \
     ui/forms/qg_polylineequidistantoptions.h \
+    ui/forms/qg_polylineoptions.h \
     ui/forms/qg_printpreviewoptions.h \
     ui/forms/qg_roundoptions.h \
     ui/forms/qg_selectionwidget.h \
     ui/forms/qg_snapdistoptions.h \
     ui/forms/qg_snapmiddleoptions.h \
+    ui/forms/qg_snaptoolbar.h \
     ui/forms/qg_splineoptions.h \
     ui/forms/qg_textoptions.h \
     ui/forms/qg_trimamountoptions.h \
     ui/forms/qg_widgetpen.h \
-    ui/lc_centralwidget.h \
-    ui/lc_widgetfactory.h \
-    ui/twostackedlabels.h \
-    ui/qg_commandhistory.h \
-    ui/lc_dockwidget.h \
-    ui/forms/lc_dlgsplinepoints.h \
-    ui/forms/lc_widgetoptionsdialog.h \
-    ui/forms/qg_snaptoolbar.h \
-    ui/forms/qg_activelayername.h \
-    ui/lc_deviceoptions.h \
-    ui/generic/comboboxoption.h \
     ui/generic/actionlist.h \
+    ui/generic/comboboxoption.h \
+    ui/generic/linklist.h \
     ui/generic/widgetcreator.h \
+    ui/lc_actionfactory.h \
     ui/lc_actiongroupmanager.h \
-    ui/generic/linklist.h
+    ui/lc_centralwidget.h \
+    ui/lc_deviceoptions.h \
+    ui/lc_dockwidget.h \
+    ui/lc_widgetfactory.h \
+    ui/lg_dimzerosbox.h \
+    ui/qg_actionhandler.h \
+    ui/qg_blockwidget.h \
+    ui/qg_colorbox.h \
+    ui/qg_commandedit.h \
+    ui/qg_commandhistory.h \
+    ui/qg_dialogfactory.h \
+    ui/qg_filedialog.h \
+    ui/qg_fontbox.h \
+    ui/qg_graphicview.h \
+    ui/qg_layerbox.h \
+    ui/qg_layerwidget.h \
+    ui/qg_librarywidget.h \
+    ui/qg_linetypebox.h \
+    ui/qg_mainwindowinterface.h \
+    ui/qg_patternbox.h \
+    ui/qg_pentoolbar.h \
+    ui/qg_recentfiles.h \
+    ui/qg_scrollbar.h \
+    ui/qg_widthbox.h \
+    ui/twostackedlabels.h
 
 SOURCES += ui/lc_actionfactory.cpp \
-    ui/qg_actionhandler.cpp \
-    ui/qg_blockwidget.cpp \
-    ui/qg_colorbox.cpp \
-    ui/qg_commandedit.cpp \
-    ui/qg_dialogfactory.cpp \
-    ui/qg_filedialog.cpp \
-    ui/qg_fontbox.cpp \
-    ui/qg_graphicview.cpp \
-    ui/qg_layerbox.cpp \
-    ui/qg_layerwidget.cpp \
-    ui/qg_librarywidget.cpp \
-    ui/qg_linetypebox.cpp \
-    ui/qg_patternbox.cpp \
-    ui/qg_pentoolbar.cpp \
-    ui/qg_recentfiles.cpp \
-    ui/qg_widthbox.cpp \
-    ui/lg_dimzerosbox.cpp \
+    ui/forms/lc_dlgsplinepoints.cpp \
+    ui/forms/lc_widgetoptionsdialog.cpp \
+    ui/forms/qg_activelayername.cpp \
     ui/forms/qg_arcoptions.cpp \
     ui/forms/qg_arctangentialoptions.cpp \
     ui/forms/qg_beveloptions.cpp \
@@ -733,8 +721,8 @@ SOURCES += ui/lc_actionfactory.cpp \
     ui/forms/qg_dlgoptionsmakercam.cpp \
     ui/forms/qg_dlgpoint.cpp \
     ui/forms/qg_dlgpolyline.cpp \
-    ui/forms/qg_dlgrotate.cpp \
     ui/forms/qg_dlgrotate2.cpp \
+    ui/forms/qg_dlgrotate.cpp \
     ui/forms/qg_dlgscale.cpp \
     ui/forms/qg_dlgspline.cpp \
     ui/forms/qg_dlgtext.cpp \
@@ -755,32 +743,46 @@ SOURCES += ui/lc_actionfactory.cpp \
     ui/forms/qg_mousewidget.cpp \
     ui/forms/qg_moverotateoptions.cpp \
     ui/forms/qg_mtextoptions.cpp \
-    ui/forms/qg_polylineoptions.cpp \
     ui/forms/qg_polylineequidistantoptions.cpp \
+    ui/forms/qg_polylineoptions.cpp \
     ui/forms/qg_printpreviewoptions.cpp \
     ui/forms/qg_roundoptions.cpp \
     ui/forms/qg_selectionwidget.cpp \
     ui/forms/qg_snapdistoptions.cpp \
     ui/forms/qg_snapmiddleoptions.cpp \
+    ui/forms/qg_snaptoolbar.cpp \
     ui/forms/qg_splineoptions.cpp \
     ui/forms/qg_textoptions.cpp \
     ui/forms/qg_trimamountoptions.cpp \
     ui/forms/qg_widgetpen.cpp \
-    ui/lc_centralwidget.cpp \
-    ui/lc_widgetfactory.cpp \
-    ui/twostackedlabels.cpp \
-    ui/qg_commandhistory.cpp \
-    ui/lc_dockwidget.cpp \
-    ui/forms/lc_dlgsplinepoints.cpp \
-    ui/forms/lc_widgetoptionsdialog.cpp \
-    ui/forms/qg_snaptoolbar.cpp \
-    ui/forms/qg_activelayername.cpp \
-    ui/lc_deviceoptions.cpp \
-    ui/generic/comboboxoption.cpp \
     ui/generic/actionlist.cpp \
+    ui/generic/comboboxoption.cpp \
+    ui/generic/linklist.cpp \
     ui/generic/widgetcreator.cpp \
     ui/lc_actiongroupmanager.cpp \
-    ui/generic/linklist.cpp
+    ui/lc_centralwidget.cpp \
+    ui/lc_deviceoptions.cpp \
+    ui/lc_dockwidget.cpp \
+    ui/lc_widgetfactory.cpp \
+    ui/lg_dimzerosbox.cpp \
+    ui/qg_actionhandler.cpp \
+    ui/qg_blockwidget.cpp \
+    ui/qg_colorbox.cpp \
+    ui/qg_commandedit.cpp \
+    ui/qg_commandhistory.cpp \
+    ui/qg_dialogfactory.cpp \
+    ui/qg_filedialog.cpp \
+    ui/qg_fontbox.cpp \
+    ui/qg_graphicview.cpp \
+    ui/qg_layerbox.cpp \
+    ui/qg_layerwidget.cpp \
+    ui/qg_librarywidget.cpp \
+    ui/qg_linetypebox.cpp \
+    ui/qg_patternbox.cpp \
+    ui/qg_pentoolbar.cpp \
+    ui/qg_recentfiles.cpp \
+    ui/qg_widthbox.cpp \
+    ui/twostackedlabels.cpp
 
 FORMS = ui/forms/qg_commandwidget.ui \
     ui/forms/qg_arcoptions.ui \

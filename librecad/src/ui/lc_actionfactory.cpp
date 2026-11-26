@@ -29,9 +29,12 @@
 // Andrew Mustun, Claude Sylvain, R. van Twisk, Dongxu Li, Rallaz, Armin Stebich, ravas, korhadris
 
 #include "lc_actionfactory.h"
-#include "lc_actiongroupmanager.h"
+
 #include <QAction>
 #include <QActionGroup>
+
+#include "lc_actiongroupmanager.h"
+#include "rs_settings.h"
 
 LC_ActionFactory::LC_ActionFactory(QObject* parent, QObject* a_handler)
     : QObject(parent)
@@ -592,6 +595,14 @@ void LC_ActionFactory::fillActionContainer(QMap<QString, QAction*>& a_map, LC_Ac
     action->setObjectName("ModifyRevertDirection");
     action->setData("revert, rev");
     a_map["ModifyRevertDirection"] = action;
+
+    // Команда "Sort contour" для сортировки сплайнов - sortc and sort.
+    action = new QAction(tr("&Sort contour"), agm->modify);
+    action->setIcon(QIcon(":/icons/revert_direction.svg"));
+    connect(action, SIGNAL(triggered()), action_handler, SLOT(slotModifySortContour()));
+    action->setObjectName("ModifySortContour");
+    action->setData("sortc, sort");
+    a_map["ModifySortContour"] = action;
 
     action = new QAction(QIcon(":/icons/rotate.svg"), tr("&Rotate"), agm->modify);
     connect(action, SIGNAL(triggered()),

@@ -23,6 +23,7 @@
 ** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #include<cassert>
 #include<QAction>
 #include "qg_cadtoolbarmodify.h"
@@ -44,7 +45,7 @@ void QG_CadToolBarModify::addSubActions(const std::vector<QAction*>& actions, bo
 	LC_CadToolBarInterface::addSubActions(actions, addGroup);
 	std::vector<QAction**> const buttons={
 		&bMove, &bRotate, &bScale, &bMirror, &bMoveRotate, &bRotate2,
-		&bRevertDirection, &bTrim, &bTrim2, &bTrimAmount, &bOffset, &bBevel,
+		&bRevertDirection, &bSortContour, &bTrim, &bTrim2, &bTrimAmount, &bOffset, &bBevel,
 		&bRound, &bCut, &bStretch, &bEntity, &bAttributes, &bDelete,
 		&bDeleteQuick, &bExplodeText, &bExplode
 	};

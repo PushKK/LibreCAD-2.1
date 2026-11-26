@@ -26,11 +26,9 @@
 
 #include <QMouseEvent>
 #include "rs_actionselect.h"
-
+#include "rs_actionselectsingle.h"
 #include "rs_dialogfactory.h"
 #include "rs_graphicview.h"
-#include "rs_actionselectsingle.h"
-
 
 RS_ActionSelect::RS_ActionSelect(QG_ActionHandler* a_handler,
                                  RS_EntityContainer& container,
@@ -44,7 +42,6 @@ RS_ActionSelect::RS_ActionSelect(QG_ActionHandler* a_handler,
 {
 	actionType=RS2::ActionSelect;
 }
-
 
 
 void RS_ActionSelect::init(int status) {
@@ -65,9 +62,13 @@ void RS_ActionSelect::resume(){
 void RS_ActionSelect::mouseReleaseEvent(QMouseEvent* e) {
     if (e->button()==Qt::RightButton) {
         init(getStatus()-1);
-    }
+        }
+    switch(nextAction) {
+    case RS2::ActionModifySortContourNoSelect:
+        action_handler->slotModifySortContour();
+        break;
+        }
 }
-
 
 int RS_ActionSelect::countSelected() {
         int ret=container->countSelected();
@@ -100,10 +101,13 @@ void RS_ActionSelect::updateMouseButtonHints() {
     case RS2::ActionEditCutNoSelect:
         RS_DIALOGFACTORY->updateMouseWidget(tr("Select to cut"), tr("Cancel"));
         break;
-	case RS2::ActionModifyRevertDirectionNoSelect:
-		RS_DIALOGFACTORY->updateMouseWidget(tr("Select to revert direction"), tr("Cancel"));
-		break;
-	case RS2::ActionModifyRotateNoSelect:
+    case RS2::ActionModifyRevertDirectionNoSelect:
+	RS_DIALOGFACTORY->updateMouseWidget(tr("Select to revert direction"), tr("Cancel"));
+	break;
+    case RS2::ActionModifySortContourNoSelect:
+	RS_DIALOGFACTORY->updateMouseWidget(tr("Select to sort contour"), tr("Cancel"));
+	break;
+    case RS2::ActionModifyRotateNoSelect:
         RS_DIALOGFACTORY->updateMouseWidget(tr("Select to rotate"), tr("Cancel"));
         break;
     case RS2::ActionModifyScaleNoSelect:

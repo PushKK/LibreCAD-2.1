@@ -24,30 +24,31 @@
 **
 **********************************************************************/
 
+#include "rs_entitycontainer.h"
+
+#include <algorithm>
 #include <iostream>
 #include <cmath>
 #include <set>
 #include <QObject>
+#include <vector>
+
+#include "qg_dialogfactory.h"
 
 #include "rs_dialogfactory.h"
-#include "qg_dialogfactory.h"
-#include "rs_entitycontainer.h"
-
 #include "rs_debug.h"
 #include "rs_dimension.h"
 #include "rs_layer.h"
+#include "rs_solid.h"
+#include "rs_information.h"
+#include "rs_graphicview.h"
+
 #include "rs_arc.h"
 #include "rs_ellipse.h"
 #include "rs_line.h"
 #include "rs_insert.h"
 #include "rs_spline.h"
-#include "rs_solid.h"
-#include "rs_information.h"
-#include "rs_graphicview.h"
-
-#if QT_VERSION < 0x040400
-#include "emu_qt44.h"
-#endif
+#include "lc_splinepoints.h"
 
 bool RS_EntityContainer::autoUpdateBorders = true;
 
@@ -1935,3 +1936,178 @@ QList<RS_Entity*> RS_EntityContainer::getEntityList()
 {
     return entities;
 }
+
+namespace {
+    /** Start/end points of an entity usable for chaining.
+     *  For Spline/SplinePoints the first/last control points are used
+     *  directly, because those are exactly the endpoints the curve runs
+     *  through. */
+    bool getEdgeEndpoints(RS_Entity* e, RS_Vector& start, RS_Vector& end) {
+        if (e->rtti() == RS2::EntitySpline) {
+            RS_Spline* sp = static_cast<RS_Spline*>(e);
+            if (sp->getData().controlPoints.size() < 2) {
+                return false;
+            }
+            start = sp->getData().controlPoints.front();
+            end   = sp->getData().controlPoints.back();
+        } else if (e->rtti() == RS2::EntitySplinePoints) {
+            LC_SplinePoints* sp = static_cast<LC_SplinePoints*>(e);
+//            if (sp->getData().splinePoints.size() < 2) {
+//                return false;
+//            }
+//            start = sp->getData().splinePoints.front();
+//            end   = sp->getData().splinePoints.back();
+            start = sp->getStartpoint();
+            end   = sp->getEndpoint();
+        } else {
+            start = e->getStartpoint();
+            end   = e->getEndpoint();
+        }
+        return start.valid && end.valid;
+    }
+
+    /** Reverts the direction of a chainable entity. Spline/SplinePoints
+     *  are handled here directly. */
+    void revertEdge(RS_Entity* e) {
+        if (e->rtti() == RS2::EntitySpline) {
+            RS_Spline* sp = static_cast<RS_Spline*>(e);
+// Вариант проверить
+//            RS_SplineData d = sp->getData();
+//            std::reverse(d.controlPoints.begin(), d.controlPoints.end());
+//            sp->setData(d);
+//            sp->update();
+
+// Вариант рабочий
+            auto pts = sp->getData().controlPoints;
+            std::reverse(pts.begin(), pts.end());
+//            sp->calculateBorders();
+            sp->update();
+        } else if (e->rtti() == RS2::EntitySplinePoints) {
+//            LC_SplinePoints* sp = static_cast<LC_SplinePoints*>(e);
+//            LC_SplinePointsData d = sp->getData();
+//            std::reverse(d.splinePoints.begin(), d.splinePoints.end());
+//            sp->setData(d);
+//            sp->update();
+            e->revertDirection();
+        } else {
+            e->revertDirection();
+        }
+    }
+}
+
+int RS_EntityContainer::sortContour(double tolerance, int* unchained) {
+    // 1. Collect selected, chainable entities.
+    std::vector<RS_Entity*> edges;
+    for (RS_Entity* e : entities) {
+        if (!e->isSelected()) continue;
+        switch (e->rtti()) {
+            case RS2::EntityLine:
+            case RS2::EntityArc:
+            case RS2::EntitySpline:
+            case RS2::EntitySplinePoints:
+                edges.push_back(e);
+                break;
+            default:
+                break;
+        }
+    }
+
+    if (edges.size() < 2) {
+        if (unchained) *unchained = 0;
+        return -2;
+    }
+    std::list<RS_Entity*> bestOrdered;
+    std::vector<bool> bestRevertFlags(edges.size(), false);
+
+    for (size_t startIdx = 0; startIdx < edges.size(); ++startIdx) {
+        RS_Vector s0, e0;
+        if (!getEdgeEndpoints(edges[startIdx], s0, e0)) continue;
+
+        std::list<size_t> chainIdx;
+        std::vector<bool> used(edges.size(), false);
+        std::vector<bool> rev(edges.size(), false);
+
+        used[startIdx] = true;
+        chainIdx.push_back(startIdx);
+        RS_Vector headPt = s0;
+        RS_Vector tailPt = e0;
+
+        while (true) {
+            double distBest = tolerance;
+            int best = -1;
+            bool atTail = true;
+            bool revertBest = false;
+
+            for (size_t j = 0; j < edges.size(); ++j) {
+                if (used[j]) continue;
+                RS_Vector s, e2;
+                if (!getEdgeEndpoints(edges[j], s, e2)) continue;
+
+                // Try attaching to the tail of the chain
+                double dTailStart = s.distanceTo(tailPt);
+                double dTailEnd   = e2.distanceTo(tailPt);
+                if (dTailStart < distBest) {
+                    distBest = dTailStart; best = j; atTail = true; revertBest = false;
+                }
+                if (dTailEnd < distBest) {
+                    distBest = dTailEnd;   best = j; atTail = true; revertBest = true;
+                }
+
+                // Try attaching to the head of the chain
+                double dHeadEnd   = e2.distanceTo(headPt);
+                double dHeadStart = s.distanceTo(headPt);
+                if (dHeadEnd < distBest) {
+                    distBest = dHeadEnd;   best = j; atTail = false; revertBest = false;
+                }
+                if (dHeadStart < distBest) {
+                    distBest = dHeadStart; best = j; atTail = false; revertBest = true;
+                }
+            }
+
+            if (best < 0) break;
+
+            used[best] = true;
+            rev[best] = revertBest;
+
+            RS_Vector s, e2;
+            getEdgeEndpoints(edges[best], s, e2);
+
+            if (atTail) {
+                chainIdx.push_back(best);
+                tailPt = revertBest ? s : e2;
+            } else {
+                chainIdx.push_front(best);
+                headPt = revertBest ? e2 : s;
+            }
+        }
+
+        if (chainIdx.size() > bestOrdered.size()) {
+            bestOrdered.clear();
+            for (size_t idx : chainIdx) {
+                bestOrdered.push_back(edges[idx]);
+            }
+            bestRevertFlags = rev;
+        }
+
+        // Optimal chain covering all selected entities found
+        if (bestOrdered.size() == edges.size()) break;
+    }
+
+    int chained = (int)bestOrdered.size();
+    if (unchained) *unchained = (int)edges.size() - chained;
+
+    // 3. Apply direction reversals and reorder entities in container.
+    if (chained > 1) {
+        for (size_t i = 0; i < edges.size(); ++i) {
+            if (bestRevertFlags[i]) {
+                revertEdge(edges[i]);
+            }
+        }
+        for (auto it = bestOrdered.rbegin(); it != bestOrdered.rend(); ++it) {
+            entities.removeOne(*it);
+            entities.push_front(*it);
+        }
+    }
+    return chained;
+}
+

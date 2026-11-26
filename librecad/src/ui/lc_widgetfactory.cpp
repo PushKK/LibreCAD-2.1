@@ -144,6 +144,7 @@ LC_WidgetFactory::LC_WidgetFactory(QC_ApplicationWindow* main_win,
             << a_map["ModifyMoveRotate"]
             << a_map["ModifyRotate2"]
             << a_map["ModifyRevertDirection"]
+            << a_map["ModifySortContour"]
             << a_map["ModifyTrim"]
             << a_map["ModifyTrim2"]
             << a_map["ModifyTrimAmount"]

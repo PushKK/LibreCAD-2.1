@@ -24,7 +24,6 @@
 **
 **********************************************************************/
 
-
 #ifndef RS_ENTITYCONTAINER_H
 #define RS_ENTITYCONTAINER_H
 
@@ -192,6 +191,7 @@ public:
 	void moveSelectedRef(const RS_Vector& ref, const RS_Vector& offset) override;
 	void revertDirection() override;
 
+    int sortContour(double tolerance = 1.0e-4, int* unchained = nullptr);
 
 	void draw(RS_Painter* painter, RS_GraphicView* view, double& patternOffset) override;
 

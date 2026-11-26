@@ -190,7 +190,7 @@ RS_Commands::RS_Commands() {
             {{"circle", QObject::tr("circle", "draw circle")}},
             {{"ci", QObject::tr("ci", "draw circle")}},
             RS2::ActionDrawCircle
-        },        
+        },
         //draw 2 point circle
         {
             {{"circle2", QObject::tr("circle2", "circle 2 points")}},
@@ -409,6 +409,12 @@ RS_Commands::RS_Commands() {
             {{"rev", QObject::tr("rev", "modify -  revert direction")}},
             RS2::ActionModifyRevertDirection
         },
+        //sort
+        {
+            {{"sortc", QObject::tr("sortc", "sort -  sort contour")}},
+            {{"sort", QObject::tr("sort", "sort -  sort contour")}},
+            RS2::ActionModifySortContour
+        },
         //rotate
         {
             {{"rotate", QObject::tr("rotate", "modify - rotate")}},
@@ -529,7 +535,7 @@ RS_Commands::RS_Commands() {
         },
         //Modify Attributes
         {
-            {{"modifyattr", QObject::tr("modifyattr", "modify attribute")}},            
+            {{"modifyattr", QObject::tr("modifyattr", "modify attribute")}},
             {{"attr", QObject::tr("attr", "modify attribute")},
             {"ma", QObject::tr("ma", "modify attribute")}},
             RS2::ActionModifyAttributes

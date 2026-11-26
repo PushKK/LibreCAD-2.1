@@ -408,6 +408,7 @@ void QG_CadToolBar::showCadToolBar(RS2::ActionType actionType, bool cleanup){
     case RS2::ActionModifyOffsetNoSelect:
     case RS2::ActionModifyRevertDirection:
     case RS2::ActionModifyRevertDirectionNoSelect:
+    case RS2::ActionModifySortContour:
 		id=RS2::ToolBarModify;
         break;
     case RS2::ActionInfoInside:

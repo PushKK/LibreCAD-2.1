@@ -122,6 +122,7 @@
 #include "rs_actionmodifymove.h"
 #include "rs_actionmodifymoverotate.h"
 #include "rs_actionmodifyrevertdirection.h"
+#include "rs_actionmodifysortcontour.h"
 #include "rs_actionmodifyrotate.h"
 #include "rs_actionmodifyrotate2.h"
 #include "rs_actionmodifyround.h"
@@ -555,7 +556,7 @@ RS_ActionInterface* QG_ActionHandler::setCurrentAction(RS2::ActionType id) {
         }
 	case RS2::ActionDrawHatchNoSelect:
 		a = new RS_ActionDrawHatch(*document, *view);
-        break;   
+        break;
     case RS2::ActionDrawImage:
         a = new RS_ActionDrawImage(*document, *view);
         break;
@@ -610,26 +611,34 @@ RS_ActionInterface* QG_ActionHandler::setCurrentAction(RS2::ActionType id) {
         a = new RS_ActionModifyDeleteFree(*document, *view);
         break;
     case RS2::ActionModifyMove:
-		if(!document->countSelected()){
-			a = new RS_ActionSelect(this, *document, *view, RS2::ActionModifyMoveNoSelect);
-			break;
-		}
+	if(!document->countSelected()){
+		a = new RS_ActionSelect(this, *document, *view, RS2::ActionModifyMoveNoSelect);
+		break;
+	}
     case RS2::ActionModifyMoveNoSelect:
         a = new RS_ActionModifyMove(*document, *view);
         break;
-	case RS2::ActionModifyRevertDirection:
-		if(!document->countSelected()){
-			a = new RS_ActionSelect(this, *document, *view, RS2::ActionModifyRevertDirectionNoSelect);
-			break;
-		}
-	case RS2::ActionModifyRevertDirectionNoSelect:
-		a = new RS_ActionModifyRevertDirection(*document, *view);
+    case RS2::ActionModifyRevertDirection:
+	if(!document->countSelected()){
+		a = new RS_ActionSelect(this, *document, *view, RS2::ActionModifyRevertDirectionNoSelect);
 		break;
-	case RS2::ActionModifyRotate:
-		if(!document->countSelected()){
-			a = new RS_ActionSelect(this, *document, *view, RS2::ActionModifyRotateNoSelect);
-			break;
-		}
+	}
+    case RS2::ActionModifyRevertDirectionNoSelect:
+	a = new RS_ActionModifyRevertDirection(*document, *view);
+	break;
+    case RS2::ActionModifySortContour:
+	if(!document->countSelected()){
+		a = new RS_ActionSelect(this, *document, *view, RS2::ActionModifySortContourNoSelect);
+		break;
+	}
+    case RS2::ActionModifySortContourNoSelect:
+	a = new RS_ActionModifySortContour(*document, *view);
+	break;
+    case RS2::ActionModifyRotate:
+	if(!document->countSelected()){
+		a = new RS_ActionSelect(this, *document, *view, RS2::ActionModifyRotateNoSelect);
+		break;
+	}
     case RS2::ActionModifyRotateNoSelect:
         a = new RS_ActionModifyRotate(*document, *view);
         break;
@@ -1543,6 +1552,10 @@ void QG_ActionHandler::slotModifyMove() {
 
 void QG_ActionHandler::slotModifyRevertDirection() {
 	setCurrentAction(RS2::ActionModifyRevertDirection);
+}
+
+void QG_ActionHandler::slotModifySortContour() {
+	setCurrentAction(RS2::ActionModifySortContour);
 }
 
 void QG_ActionHandler::slotModifyRotate() {
