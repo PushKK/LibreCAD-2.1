@@ -27,9 +27,10 @@
 #include "widgetcreator.h"
 #include "ui_widgetcreator.h"
 
-#include <QSettings>
+#include <QActionGroup>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QSettings>
 
 WidgetCreator::WidgetCreator(QWidget* parent,
                              QMap<QString, QAction*>& actions,

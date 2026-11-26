@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 **********************************************************************/
 
 #include <QPolygonF>
+#include <QPainterPath>
 #include "lc_splinepoints.h"
 
 #include "rs_circle.h"
@@ -101,7 +102,7 @@ RS_Vector GetSubQuadControlPoint(const RS_Vector& x1,
 
 double LenInt(double x)
 {
-	double y = sqrt(1 + x*x); 
+	double y = sqrt(1 + x*x);
 	return log(x + y) + x*y;
 }
 
@@ -1552,12 +1553,12 @@ double DrawPatternLine(std::vector<double> const& pdPattern, int iPattern, doubl
 		dt2 = GetLinePointAtDist(dLen, dt1, dCurSegLen);
 		dCurLen -= dCurSegLen;
 	}
-	else 
+	else
 	{
 		dSegOffs = dCurLen;
 		dCurLen = 0.0;
 	}
-	
+
     RS_Vector p2;
 
 	p2 = x1*(1.0 - dt2) + x2*dt2;
@@ -1635,12 +1636,12 @@ double DrawPatternQuad(std::vector<double> const& pdPattern, int iPattern, doubl
 		dt2 = GetQuadPointAtDist(x1, c1, x2, dt1, dCurSegLen);
 		dCurLen -= dCurSegLen;
 	}
-	else 
+	else
 	{
 		dSegOffs = dCurLen;
 		dCurLen = 0.0;
 	}
-	
+
     RS_Vector c2;
     RS_Vector p2;
 
@@ -2245,7 +2246,7 @@ bool LC_SplinePoints::offsetCut(const RS_Vector& coord, const double& distance)
 		{
 			spd = AddLineOffset(vStart, vEnd, dDist);
 			bRes = spd.splinePoints.size() > 0;
-			if(bRes) 
+			if(bRes)
 			{
 				data = spd;
 				update();
@@ -3044,7 +3045,7 @@ RS_VectorSolutions getLineLineIntersect(
 	RS_Vector x1 = vx2 - vx1;
 	RS_Vector x2 = vStart - vEnd;
 	RS_Vector x3 = vStart - vx1;
-	
+
 	double dDet = x1.x*x2.y - x1.y*x2.x;
 	if(fabs(dDet) < RS_TOLERANCE) return ret;
 
@@ -3055,7 +3056,7 @@ RS_VectorSolutions getLineLineIntersect(
 	if(ds < -RS_TOLERANCE) return ret;
 	if(dt > 1.0 + RS_TOLERANCE) return ret;
 	if(ds > 1.0 + RS_TOLERANCE) return ret;
-	
+
 	if(dt < 0.0) dt = 0.0;
 	if(dt > 1.0) dt = 1.0;
 
@@ -3575,7 +3576,7 @@ RS_VectorSolutions LC_SplinePoints::getIntersection(RS_Entity const* e1, RS_Enti
 	if(e1->rtti() != RS2::EntitySplinePoints) return ret;
 
 	RS_Line* rsln;
-	
+
 	switch(e2->rtti())
 	{
 	case RS2::EntityLine:

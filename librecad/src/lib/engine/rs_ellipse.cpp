@@ -38,6 +38,7 @@
 #include  "lc_quadratic.h"
 #include "rs_painterqt.h"
 #include "rs_debug.h"
+#include <tuple>
 
 #ifdef EMU_C99
 #include "emu_c99.h" /* C99 math */
@@ -66,21 +67,19 @@ public:
 	void setDistance(const double& target){
 		distance=target;
 	}
-#if BOOST_VERSION > 104500
-	boost::math::tuple<double, double, double> operator()(double const& z) const {
-#else
-	boost::fusion::tuple<double, double, double> operator()(double const& z) const {
-#endif
-	double const cz=cos(z);
-	double const sz=sin(z);
+
+
+
+
+
+
+	std::tuple<double, double, double> operator()(double const& z) const {
+    	double const cz=cos(z);
+    	double const sz=sin(z);
 		//delta amplitude
 	double const d=sqrt(1-k2*sz*sz);
 		// return f(x), f'(x) and f''(x)
-#if BOOST_VERSION > 104500
-	return boost::math::make_tuple(
-#else
-	return boost::fusion::make_tuple(
-#endif
+    	return std::make_tuple(
 					e->getEllipseLength(z)-distance,
 					ra*d,
 					k2ra*sz*cz/d
