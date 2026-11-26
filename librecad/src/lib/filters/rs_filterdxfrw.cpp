@@ -2340,7 +2340,7 @@ void RS_FilterDXFRW::writeSplinePoints(LC_SplinePoints *s)
 	sp.nknots = nCtrls + 3;
 
 	// write spline knots:
-	for(int i = 1; i <= sp.nknots; i++) 
+	for(int i = 1; i <= sp.nknots; i++)
 	{
 		if(i <= 3)
 		{
@@ -2966,7 +2966,7 @@ void RS_FilterDXFRW::setEntityAttributes(RS_Entity* entity,
                               attrib->color24 >> 8 & 0xFF,
                               attrib->color24 & 0xFF));
     else
-    pen.setColor(numberToColor(attrib->color));
+        pen.setColor(numberToColor(attrib->color));
 
     // Linetype:
     pen.setLineType(nameToLineType( QString::fromUtf8(attrib->lineType.c_str()) ));
@@ -2975,9 +2975,9 @@ void RS_FilterDXFRW::setEntityAttributes(RS_Entity* entity,
     pen.setWidth(numberToWidth(attrib->lWeight));
 
     entity->setPen(pen);
+    entity->setHandle(attrib->handle);
     RS_DEBUG->print("RS_FilterDXF::setEntityAttributes: OK");
 }
-
 
 
 /**
@@ -2985,6 +2985,11 @@ void RS_FilterDXFRW::setEntityAttributes(RS_Entity* entity,
  */
 void RS_FilterDXFRW::getEntityAttributes(DRW_Entity* ent, const RS_Entity* entity) {
 //DRW_Entity RS_FilterDXFRW::getEntityAttributes(RS_Entity* /*entity*/) {
+
+    // Handle
+    if (entity->getHandle() != 0) {
+        ent->handle = entity->getHandle();
+    }
 
     // Layer:
     RS_Layer* layer = entity->getLayer();
