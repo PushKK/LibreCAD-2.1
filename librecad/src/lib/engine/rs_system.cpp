@@ -497,12 +497,12 @@ bool RS_System::createPaths(const QString& directory) {
  * @return Application data directory.
  */
 QString RS_System::getAppDataDir() {
-    QString appData = 
+    QString appData =
 #if QT_VERSION >= 0x050000
         QStandardPaths::writableLocation(QStandardPaths::DataLocation);
 #else
         QDesktopServices::storageLocation(QDesktopServices::DataLocation) ;
-#endif 
+#endif
     QDir dir(appData);
     if (!dir.exists()) {
         if (!dir.mkpath(appData))
@@ -568,10 +568,10 @@ QStringList RS_System::getDirectoryList(const QString& _subDirectory) {
     QString subDirectory=QDir::fromNativeSeparators(_subDirectory);
 
 #if QT_VERSION < 0x040400 && defined(_MSC_VER)
-        dirList.append(emu_qt44_storageLocationDocuments() + "/" + 
-                       appDirName + "/" + 
+        dirList.append(emu_qt44_storageLocationDocuments() + "/" +
+                       appDirName + "/" +
                        subDirectory);
-#else // QT_VERSION > 0x040400 or _MSC_VER not defined (!) 
+#else // QT_VERSION > 0x040400 or _MSC_VER not defined (!)
 
 #ifdef Q_OS_MAC
 #if QT_VERSION >= 0x050000
@@ -580,7 +580,7 @@ QStringList RS_System::getDirectoryList(const QString& _subDirectory) {
         dirList.append(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/" + appDirName + "/" + subDirectory);
 #endif
 #endif // Q_OS_MAC
-		
+
 #ifdef Q_OS_WIN32
 #if QT_VERSION >= 0x050000
         dirList.append(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + appDirName + "/" + subDirectory);
@@ -588,7 +588,7 @@ QStringList RS_System::getDirectoryList(const QString& _subDirectory) {
         dirList.append(QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation) + "/" + appDirName + "/" + subDirectory);
 #endif
 #endif // Q_OS_WIN32
-		
+
     // Unix home directory, it's old style but some people might have stuff there.
     dirList.append(getHomeDir() + "/." + appDirName + "/" + subDirectory);
 #endif // QT_VERSION < 0x040400 && defined(_MSC_VER)
@@ -628,6 +628,8 @@ QStringList RS_System::getDirectoryList(const QString& _subDirectory) {
     if (subDirectory=="fonts") {
         dirList += (RS_SETTINGS->readEntry("/Fonts", "")).split(QRegExp("[;]"),
                                                         QString::SkipEmptyParts);
+// Проверить
+//        dirList.prepend(QDir(QCoreApplication::applicationDirPath()).filePath("support/fonts"));}
     } else if (subDirectory=="patterns") {
         dirList += (RS_SETTINGS->readEntry("/Patterns", "")).split(QRegExp("[;]"),
                                                         QString::SkipEmptyParts);
@@ -833,7 +835,7 @@ QString RS_System::getEncoding(const QString& str) {
  2004-05-13, J Staniek
 */
 static QMap<QByteArray,QByteArray> loc_map;
-
+// Проверить кодировку CP1251
 QByteArray RS_System::localeToISO(const QByteArray& locale) {
     if (loc_map.isEmpty()) {
         loc_map["croatian"]="ISO8859-2";
@@ -854,6 +856,8 @@ QByteArray RS_System::localeToISO(const QByteArray& locale) {
         loc_map["ro"]="ISO8859-2";
         loc_map["ro_RO"]="ISO8859-2";
         loc_map["rumanian"]="ISO8859-2";
+        loc_map["ru"] = "ISO8859-5";
+        loc_map["ru_RU"] = "ISO8859-5";
         loc_map["serbocroatian"]="ISO8859-2";
         loc_map["sh"]="ISO8859-2";
         loc_map["sh_SP"]="ISO8859-2";
@@ -935,9 +939,11 @@ QByteArray RS_System::localeToISO(const QByteArray& locale) {
         loc_map["sv_FI"]="ISO8859-15";
         loc_map["wa_BE"]="ISO8859-15";
 
+        loc_map["ru"] = "KOI8-R";
+        loc_map["ru_RU"] = "KOI8-R";
         loc_map["uk"]="KOI8-U";
         loc_map["uk_UA"]="KOI8-U";
-        loc_map["ru_YA"]="KOI8-U";
+        loc_map["ru_UA"]="KOI8-U";
         loc_map["ukrainian"]="KOI8-U";
 
         loc_map["be"]="KOI8-R";

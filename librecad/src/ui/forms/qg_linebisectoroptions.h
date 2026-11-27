@@ -48,6 +48,7 @@ public slots:
     virtual void setAction( RS_ActionInterface * a, bool update );
     virtual void updateLength( const QString & l );
     virtual void updateNumber( int n );
+    virtual void updateBetweenLines( bool checked );
 
 protected:
     RS_ActionDrawLineBisector* action;

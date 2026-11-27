@@ -29,6 +29,7 @@
 #include "rs_actiondrawlinebisector.h"
 
 #include "rs_dialogfactory.h"
+#include "rs_document.h"
 #include "rs_graphicview.h"
 #include "rs_commandevent.h"
 #include "rs_creation.h"
@@ -36,6 +37,44 @@
 #include "rs_math.h"
 #include "rs_preview.h"
 #include "rs_debug.h"
+
+namespace {
+void createMidBisector(RS_EntityContainer* container, RS_GraphicView* view,
+                       RS_Document* document, RS_Line* line1, RS_Line* line2) {
+    if (!container || !line1 || !line2) return;
+
+    RS_Vector s1 = line1->getStartpoint();
+    RS_Vector e1 = line1->getEndpoint();
+    RS_Vector s2 = line2->getStartpoint();
+    RS_Vector e2 = line2->getEndpoint();
+
+    // Согласовываем направления отрезков
+    RS_Vector v1 = e1 - s1;
+    RS_Vector v2 = e2 - s2;
+    if (v1.dotP(v2) < 0.0) {
+        std::swap(s2, e2);
+    }
+
+    RS_Vector midStart = (s1 + s2) * 0.5;
+    RS_Vector midEnd   = (e1 + e2) * 0.5;
+
+    auto* newLine = new RS_Line(container, midStart, midEnd);
+    if (view) {
+        newLine->setLayerToActive();
+        newLine->setPenToActive();
+    }
+
+    if (document) {
+        document->startUndoCycle();
+        container->addEntity(newLine);
+        document->addUndoable(newLine);
+        document->endUndoCycle();
+    } else {
+        container->addEntity(newLine);
+    }
+}
+} // namespace
+
 
 struct RS_ActionDrawLineBisector::Points {
 	/** Mouse pos when choosing the 1st line */
@@ -53,7 +92,8 @@ RS_ActionDrawLineBisector::RS_ActionDrawLineBisector(
 		,line2(nullptr)
 		,length(10.)
 		,number(1)
-		, pPoints(new Points{})
+		,betweenLines(false)
+        	,pPoints(new Points{})
 		,lastStatus(SetLine1)
 {
 	actionType=RS2::ActionDrawLineBisector;
@@ -78,6 +118,13 @@ int RS_ActionDrawLineBisector::getNumber() const {
 	return number;
 }
 
+void RS_ActionDrawLineBisector::setBetweenLines(bool b) {
+	betweenLines = b;
+}
+
+bool RS_ActionDrawLineBisector::getBetweenLines() const {
+	return betweenLines;
+}
 
 void RS_ActionDrawLineBisector::init(int status) {
 	RS_PreviewActionInterface::init(status);
@@ -106,15 +153,19 @@ void RS_ActionDrawLineBisector::trigger() {
 	}
 	graphicView->redraw(RS2::RedrawDrawing);
 
-    RS_Creation creation(container, graphicView);
-	creation.createBisector(pPoints->coord1,
-							pPoints->coord2,
-                            length,
-                            number,
-                            line1,
-							line2);
+        if (betweenLines) {
+        createMidBisector(container, graphicView, document, line1, line2);
+        graphicView->redraw(RS2::RedrawDrawing);
+    } else {
+        RS_Creation creation(container, graphicView);
+    	creation.createBisector(pPoints->coord1,
+    				pPoints->coord2,
+                                length,
+                                number,
+                                line1,
+    				line2);
+    }
 }
-
 
 
 void RS_ActionDrawLineBisector::mouseMoveEvent(QMouseEvent* e) {
@@ -141,13 +192,18 @@ void RS_ActionDrawLineBisector::mouseMoveEvent(QMouseEvent* e) {
 
                 deletePreview();
 
-				RS_Creation creation(preview.get(), nullptr, false);
-				creation.createBisector(pPoints->coord1,
-										pPoints->coord2,
-                                        length,
-                                        number,
-                                        line1,
-                                        line2);
+
+                if (betweenLines) {
+                    createMidBisector(preview.get(), nullptr, nullptr, line1, line2);
+                } else {
+    			RS_Creation creation(preview.get(), nullptr, false);
+	    		creation.createBisector(pPoints->coord1,
+	    		pPoints->coord2,
+                        length,
+                        number,
+                        line1,
+                        line2);
+                }
                 drawPreview();
 			}else{
 				if(line2 && line2->isHighlighted()){
@@ -262,7 +318,6 @@ void RS_ActionDrawLineBisector::commandEvent(RS_CommandEvent* e) {
         break;
     }
 }
-
 
 
 QStringList RS_ActionDrawLineBisector::getAvailableCommands() {

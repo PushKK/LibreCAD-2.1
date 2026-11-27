@@ -74,6 +74,10 @@ public:
 
 	int getNumber() const;
 
+	void setBetweenLines(bool b);
+
+	bool getBetweenLines() const;
+
 private:
     /** Closest bisector. */
     RS_Line* bisector;
@@ -85,6 +89,8 @@ private:
     double length;
 	/** Number of bisectors to create. */
 	int number;
+	/** Mode: true = between midpoints of line starts/ends, false = from intersection point. */
+	bool betweenLines;
 	struct Points;
 	std::unique_ptr<Points> pPoints;
 	/** Last status before entering length or number. */

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>280</width>
+    <width>460</width>
     <height>22</height>
    </rect>
   </property>
@@ -84,6 +84,16 @@
      </property>
      <property name="minimum">
       <number>1</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="cbBetweenLines">
+     <property name="toolTip">
+      <string>Draw bisector between midpoints of start and end points of two lines</string>
+     </property>
+     <property name="text">
+      <string>Between lines</string>
      </property>
     </widget>
    </item>

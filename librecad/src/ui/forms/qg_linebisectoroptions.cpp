@@ -15,14 +15,15 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 **
-** This copyright notice MUST APPEAR in all copies of the script!  
+** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #include "qg_linebisectoroptions.h"
 
 #include "rs_actiondrawlinebisector.h"
@@ -35,11 +36,13 @@
  *  Constructs a QG_LineBisectorOptions as a child of 'parent', with the
  *  name 'name' and widget flags set to 'f'.
  */
+
 QG_LineBisectorOptions::QG_LineBisectorOptions(QWidget* parent, Qt::WindowFlags fl)
     : QWidget(parent, fl)
 	, ui(new Ui::Ui_LineBisectorOptions{})
 {
 	ui->setupUi(this);
+    connect(ui->cbBetweenLines, &QCheckBox::toggled, this, &QG_LineBisectorOptions::updateBetweenLines);
 }
 
 /*
@@ -63,6 +66,7 @@ void QG_LineBisectorOptions::saveSettings() {
     RS_SETTINGS->beginGroup("/Draw");
 	RS_SETTINGS->writeEntry("/LineBisectorLength", ui->leLength->text());
 	RS_SETTINGS->writeEntry("/LineBisectorNumber", ui->sbNumber->text());
+	RS_SETTINGS->writeEntry("/LineBisectorBetweenLines", ui->cbBetweenLines->isChecked() ? 1 : 0);
     RS_SETTINGS->endGroup();
 }
 
@@ -72,17 +76,24 @@ void QG_LineBisectorOptions::setAction(RS_ActionInterface* a, bool update) {
 
         QString sl;
         QString sn;
+        bool between = false;
         if (update) {
             sl = QString("%1").arg(action->getLength());
             sn = QString("%1").arg(action->getNumber());
+            between = action->getBetweenLines();
         } else {
             RS_SETTINGS->beginGroup("/Draw");
             sl = RS_SETTINGS->readEntry("/LineBisectorLength", "1.0");
             sn = RS_SETTINGS->readEntry("/LineBisectorNumber", "1");
+            between = (RS_SETTINGS->readNumEntry("/LineBisectorBetweenLines", 0) != 0);
             RS_SETTINGS->endGroup();
         }
 		ui->leLength->setText(sl);
 		ui->sbNumber->setValue(sn.toInt());
+		ui->cbBetweenLines->setChecked(between);
+		action->setBetweenLines(between);
+		ui->leLength->setEnabled(!between);
+		ui->sbNumber->setEnabled(!between);
     } else {
         RS_DEBUG->print(RS_Debug::D_ERROR, 
 			"QG_LineBisectorOptions::setAction: wrong action type");
@@ -99,5 +110,13 @@ void QG_LineBisectorOptions::updateLength(const QString& l) {
 void QG_LineBisectorOptions::updateNumber(int n) {
     if (action) {
         action->setNumber(n);
+    }
+}
+
+void QG_LineBisectorOptions::updateBetweenLines(bool checked) {
+    ui->leLength->setEnabled(!checked);
+    ui->sbNumber->setEnabled(!checked);
+    if (action) {
+        action->setBetweenLines(checked);
     }
 }

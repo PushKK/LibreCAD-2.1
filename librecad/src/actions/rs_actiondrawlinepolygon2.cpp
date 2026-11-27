@@ -206,7 +206,7 @@ void RS_ActionDrawLinePolygonCorCor::commandEvent(RS_CommandEvent* e) {
                     number = n;
 				} else
 					RS_DIALOGFACTORY->commandMessage(tr("Not a valid number. "
-														"Try 1..9999"));
+									"Try 1..9999"));
 			} else
 				RS_DIALOGFACTORY->commandMessage(tr("Not a valid expression."));
 			RS_DIALOGFACTORY->requestOptions(this, true, true);

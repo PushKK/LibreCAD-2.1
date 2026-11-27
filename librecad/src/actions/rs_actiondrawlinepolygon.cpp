@@ -187,19 +187,19 @@ void RS_ActionDrawLinePolygonCenCor::commandEvent(RS_CommandEvent* e) {
         break;
 
     case SetNumber: {
-            bool ok;
-            int n = c.toInt(&ok);
-            if (ok) {
-                e->accept();
-                if (n>0 && n<10000) {
-                    number = n;
-				} else
-					RS_DIALOGFACTORY->commandMessage(tr("Not a valid number. "
-														"Try 1..9999"));
-			} else
-				RS_DIALOGFACTORY->commandMessage(tr("Not a valid expression"));
-			RS_DIALOGFACTORY->requestOptions(this, true, true);
-            setStatus(lastStatus);
+        bool ok;
+        int n = c.toInt(&ok);
+        if (ok) {
+            e->accept();
+            if (n>0 && n<10000) {
+                number = n;
+	    } else
+		RS_DIALOGFACTORY->commandMessage(tr("Not a valid number. "
+						"Try 1..9999"));
+	    } else
+		RS_DIALOGFACTORY->commandMessage(tr("Not a valid expression"));
+		RS_DIALOGFACTORY->requestOptions(this, true, true);
+                setStatus(lastStatus);
         }
         break;
 

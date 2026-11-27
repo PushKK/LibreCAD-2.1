@@ -176,7 +176,7 @@ void RS_ActionDrawLineParallel::commandEvent(RS_CommandEvent* e) {
                 if (ok && d>1.0e-10) {
                     distance = d;
 				} else
-					RS_DIALOGFACTORY->commandMessage(tr("Not a valid expression"));
+				RS_DIALOGFACTORY->commandMessage(tr("Not a valid expression"));
 				RS_DIALOGFACTORY->requestOptions(this, true, true);
                 updateMouseButtonHints();
                 //setStatus(SetEntity);
@@ -192,8 +192,8 @@ void RS_ActionDrawLineParallel::commandEvent(RS_CommandEvent* e) {
                 if (n>0 && n<100) {
                     number = n;
 				} else
-					RS_DIALOGFACTORY->commandMessage(tr("Not a valid number. "
-														"Try 1..99"));
+				RS_DIALOGFACTORY->commandMessage(tr("Not a valid number. "
+								"Try 1..99"));
 			} else
 				RS_DIALOGFACTORY->commandMessage(tr("Not a valid expression"));
 			RS_DIALOGFACTORY->requestOptions(this, true, true);
