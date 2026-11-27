@@ -13,6 +13,9 @@ LRELEASE="lrelease"
 cd "${THISDIR}"
 
 # Postprocess for unix
+mkdir -p "${RESOURCEDIR}"/docs
+cp "${SPTDIR}"/docs/*.* "${RESOURCEDIR}"/docs
+
 mkdir -p "${RESOURCEDIR}"/fonts
 cp "${SPTDIR}"/fonts/*.lff* "${RESOURCEDIR}"/fonts
 

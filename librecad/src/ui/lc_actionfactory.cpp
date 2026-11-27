@@ -588,6 +588,7 @@ void LC_ActionFactory::fillActionContainer(QMap<QString, QAction*>& a_map, LC_Ac
     action->setData("move, mv");
     a_map["ModifyMove"] = action;
 
+    // Команда "Revert direction" для изменения направления вектора - revert и rev.
     action = new QAction(tr("Re&vert direction"), agm->modify);
     action->setIcon(QIcon(":/icons/revert_direction.svg"));
     action->setShortcut(QKeySequence(tr("Ctrl+R")));
@@ -596,7 +597,7 @@ void LC_ActionFactory::fillActionContainer(QMap<QString, QAction*>& a_map, LC_Ac
     action->setData("revert, rev");
     a_map["ModifyRevertDirection"] = action;
 
-    // Команда "Sort contour" для сортировки сплайнов - sortc and sort.
+    // Команда "Sort contour" для сортировки сплайнов - sortc и sort.
     action = new QAction(tr("&Sort contour"), agm->modify);
     action->setIcon(QIcon(":/icons/revert_direction.svg"));
     connect(action, SIGNAL(triggered()), action_handler, SLOT(slotModifySortContour()));
@@ -1405,4 +1406,11 @@ void LC_ActionFactory::commonActions(QMap<QString, QAction*>& a_map, LC_ActionGr
     connect(action, SIGNAL(triggered()), main_window, SLOT(slotFileQuit()));
     action->setObjectName("FileQuit");
     a_map["FileQuit"] = action;
+
+// Команда "User Manual"
+    action = new QAction(tr("User &Manual"), agm->file);
+    action->setShortcut(QKeySequence::HelpContents); // стандартная клавиша F1
+    connect(action, SIGNAL(triggered()), main_window, SLOT(slotHelpManual()));
+    action->setObjectName("HelpManual");
+    a_map["HelpManual"] = action;
 }

@@ -83,6 +83,7 @@
 #include "qg_recentfiles.h"
 #include "qg_dlgimageoptions.h"
 #include "lc_dlgttf2lff.h"
+#include "doc_plugin_interface.h"
 #include "qg_filedialog.h"
 
 #include "rs_dialogfactory.h"
@@ -2512,6 +2513,12 @@ void QC_ApplicationWindow::keyPressEvent(QKeyEvent* e)
      QString modCode = "";
      int fn_nr = 0;
 
+     if (e->key() == Qt::Key_F1 && e->modifiers() == Qt::NoModifier) {
+         slotHelpManual();
+         e->accept();
+         return;
+     }
+
      if(e->key() >= Qt::Key_F1 && e->key() <= Qt::Key_F35) {
          fn_nr = e->key() - Qt::Key_F1 + 1;
      }
@@ -2575,6 +2582,11 @@ void QC_ApplicationWindow::keyPressEvent(QKeyEvent* e)
         // single key codes:
         switch (e->key()) {
         //need to pass Escape to actions, issue#285
+        case Qt::Key_F1:
+            slotHelpManual();
+            e->accept();
+            break;
+
         case Qt::Key_Escape:
             slotBack();
 
@@ -2765,6 +2777,72 @@ void QC_ApplicationWindow::slotFileOpenRecent(QAction* action)
     QString fileName = action->data().toString();
     slotFileOpen(fileName, RS2::FormatUnknown);
 }
+
+void QC_ApplicationWindow::slotHelpManual() {
+    // 1. Получаем версию (например, "2.1.3") и текущий язык интерфейса (например, "ru")
+    QString ver = qApp->applicationVersion();
+    if (ver.isEmpty()) {
+        ver = "2.1.3"; // запасной вариант, если версия не задана в qApp
+    }
+
+    RS_SETTINGS->beginGroup("/Appearance");
+    QString lang = RS_SETTINGS->readEntry("/Language", "en").toLower();
+    RS_SETTINGS->endGroup();
+    // Если язык указан с регионом (например, "ru_RU"), берем первые 2 символа
+    if (lang.contains('_')) {
+        lang = lang.section('_', 0, 0);
+    }
+
+    // 2. Определяем папку resources/docs (рядом с бинарником или через RS_SYSTEM)
+    QStringList docDirs;
+    docDirs << QDir(QCoreApplication::applicationDirPath()).filePath("resources/docs");
+    docDirs << RS_SYSTEM->getDirectoryList("docs");
+
+    QString foundPath;
+    for (const QString& dirPath : docDirs) {
+        QDir dir(dirPath);
+        if (!dir.exists()) continue;
+
+        // Сначала ищем точное совпадение: LibreCAD_XXX_YY.pdf
+        QString exactName = QString("LibreCAD_%1_%2.pdf").arg(ver, lang);
+        if (dir.exists(exactName)) {
+            foundPath = dir.filePath(exactName);
+            break;
+        }
+
+        // Запасной вариант 1: английская версия для этой же версии программы
+        QString enName = QString("LibreCAD_%1_en.pdf").arg(ver);
+        if (dir.exists(enName)) {
+            foundPath = dir.filePath(enName);
+            break;
+        }
+
+        // Запасной вариант 2: любой файл вида LibreCAD_*_YY.pdf или LibreCAD_*.pdf
+        QStringList langMatches = dir.entryList(QStringList() << QString("LibreCAD_*_%1.pdf").arg(lang), QDir::Files);
+        if (!langMatches.isEmpty()) {
+            foundPath = dir.filePath(langMatches.first());
+            break;
+        }
+        QStringList anyMatches = dir.entryList(QStringList() << "LibreCAD_*.pdf", QDir::Files);
+        if (!anyMatches.isEmpty()) {
+            foundPath = dir.filePath(anyMatches.first());
+            break;
+        }
+    }
+
+    if (foundPath.isEmpty()) {
+        QMessageBox::warning(this, tr("Manual"),
+                             tr("Help manual file (LibreCAD_%1_%2.pdf) not found in resources/docs.")
+                             .arg(ver, lang));
+        return;
+    }
+
+    if (!QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(foundPath).absoluteFilePath()))) {
+        QMessageBox::warning(this, tr("Manual"),
+                             tr("Failed to open PDF viewer for:\n%1").arg(foundPath));
+    }
+}
+
 
 /**
  * This slot manipulates the widget options dialog,

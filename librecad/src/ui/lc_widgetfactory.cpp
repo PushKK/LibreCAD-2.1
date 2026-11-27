@@ -754,12 +754,19 @@ void LC_WidgetFactory::createMenus(QMenuBar* menu_bar)
     help_menu->setObjectName("Help");
     help_menu->setTearOffEnabled(true);
 
+// Manual
+    QAction* help_manual = new QAction(QIcon(":/main/librecad.png"), QC_ApplicationWindow::tr("Manual"), main_window);
+    connect(help_manual, SIGNAL(triggered()), main_window, SLOT(slotHelpManual()));
+    help_menu->addAction(help_manual);
+
+// Online
     QAction* wiki_link = new QAction(QC_ApplicationWindow::tr("Online"), main_window);
     connect(wiki_link, SIGNAL(triggered()), main_window, SLOT(invokeLinkList()));
     help_menu->addAction(wiki_link);
 
     help_menu->addSeparator();
 
+// About
     QAction* help_about = new QAction(QIcon(":/main/librecad.png"), QC_ApplicationWindow::tr("About"), main_window);
     connect(help_about, SIGNAL(triggered()), main_window, SLOT(showAboutWindow()));
     help_menu->addAction(help_about);

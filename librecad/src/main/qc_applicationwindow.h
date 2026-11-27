@@ -121,6 +121,7 @@ public slots:
     void slotPenChanged(RS_Pen p);
     void slotSnapsChanged(RS_SnapMode s);
     void slotEnableActions(bool enable);
+    void slotHelpManual();
 
     /** generates a new document for a graphic. */
 	QC_MDIWindow* slotFileNew(RS_Document* doc=nullptr);
