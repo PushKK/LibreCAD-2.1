@@ -26,7 +26,6 @@ CONFIG += qt \
     verbose \
     depend_includepath
 
-
 greaterThan( QT_MAJOR_VERSION, 4 ) {
     QT += widgets printsupport
     CONFIG += c++11
@@ -40,12 +39,13 @@ PRE_TARGETDEPS += $$GEN_LIB_DIR/libdxfrw.a \
 		$$GEN_LIB_DIR/libjwwlib.a
 
 DESTDIR = $${INSTALLDIR}
-TARGET = LibreCAD
-DEFINES += QC_APPDIR="\"LibreCAD\""
 
 # Make translations at the end of the process
 unix {
     LC_VERSION=$$system([ "$(which git)x" != "x" -a -d ../../.git ] && echo "$(git describe --tags)" || echo "$${LC_VERSION}")
+
+    CONFIG += link_pkgconfig
+    PKGCONFIG += freetype2
 
     macx {
         TARGET = LibreCAD
@@ -67,16 +67,26 @@ unix {
 win32 {
     TARGET = LibreCAD
     DEFINES += QC_APPDIR="\"LibreCAD\""
+    RC_FILE = ../res/main/librecad.rc
 
     # add MSYSGIT_DIR = PathToGitBinFolder (without quotes) in custom.pro file, for commit hash in about dialog
     !isEmpty( MSYSGIT_DIR ) {
         LC_VERSION = $$system( \"$$MSYSGIT_DIR/git.exe\" describe --tags || echo "$${LC_VERSION}")
     }
 
-    RC_FILE = ../res/main/librecad.rc
     contains(DISABLE_POSTSCRIPT, false) {
         QMAKE_POST_LINK = "$$_PRO_FILE_PWD_/../../scripts/postprocess-win.bat" $$LC_VERSION
     }
+#    isEmpty(FREETYPE_DIR) {
+#        FREETYPE_DIR = $$(FREETYPE_DIR)
+#    }
+#    !isEmpty(FREETYPE_DIR) {
+#        INCLUDEPATH += $${FREETYPE_DIR}/include $${FREETYPE_DIR}/include/freetype2
+#        LIBS += -L$${FREETYPE_DIR}/lib -lfreetype
+#    } else {
+#        INCLUDEPATH += /mingw64/include/freetype2 /mingw32/include/freetype2
+#        LIBS += -lfreetype
+#    }
 }
 
 DEFINES += LC_VERSION=\"$$LC_VERSION\"
