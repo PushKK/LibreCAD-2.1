@@ -16,7 +16,7 @@ class LC_CadToolBarInterface: public QWidget
 {
 public:
 	LC_CadToolBarInterface() = delete;
-	LC_CadToolBarInterface(QG_CadToolBar* _parentTB, Qt::WindowFlags fl = 0);
+	LC_CadToolBarInterface(QG_CadToolBar* _parentTB, Qt::WindowFlags fl = {});
 	virtual ~LC_CadToolBarInterface()=default;
 
 	virtual RS2::ToolBarId rtti() const = 0;

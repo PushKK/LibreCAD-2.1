@@ -15,12 +15,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 **
-** This copyright notice MUST APPEAR in all copies of the script!  
+** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
 
@@ -42,11 +42,12 @@ struct LC_Options;
 
 /**
  * This is the Qt implementation of a widget which can view a 
- * graphic. 
+ * graphic.
  *
  * Instances of this class can be linked to layer lists using
  * addLayerListListener().
  */
+
 class QG_GraphicView:   public RS_GraphicView,
                         public RS_LayerListListener,
                         public RS_BlockListListener
@@ -54,43 +55,43 @@ class QG_GraphicView:   public RS_GraphicView,
     Q_OBJECT
 
 public:
-    QG_GraphicView(QWidget* parent = 0, Qt::WindowFlags f = 0, RS_Document* doc = 0);
+    QG_GraphicView(QWidget* parent = 0, Qt::WindowFlags fl = {}, RS_Document* doc = 0);
 	~QG_GraphicView() override;
 
-	int getWidth() const override;
-	int getHeight() const override;
-	void redraw(RS2::RedrawMethod method=RS2::RedrawAll) override;
-	void adjustOffsetControls() override;
-	void adjustZoomControls() override;
-	void setBackground(const RS_Color& bg) override;
-	void setMouseCursor(RS2::CursorType c) override;
-	void updateGridStatusWidget(const QString& text) override;
+    int getWidth() const override;
+    int getHeight() const override;
+    void redraw(RS2::RedrawMethod method=RS2::RedrawAll) override;
+    void adjustOffsetControls() override;
+    void adjustZoomControls() override;
+    void setBackground(const RS_Color& bg) override;
+    void setMouseCursor(RS2::CursorType c) override;
+    void updateGridStatusWidget(const QString& text) override;
 
-	virtual	void getPixmapForView(std::unique_ptr<QPixmap>& pm);
-		
+    virtual	void getPixmapForView(std::unique_ptr<QPixmap>& pm);
+
     // Methods from RS_LayerListListener Interface:
-	void layerEdited(RS_Layer*) override{
-        redraw(RS2::RedrawDrawing); 
+    void layerEdited(RS_Layer*) override{
+        redraw(RS2::RedrawDrawing);
     }
-	void layerRemoved(RS_Layer*) override{
-        redraw(RS2::RedrawDrawing); 
+    void layerRemoved(RS_Layer*) override{
+        redraw(RS2::RedrawDrawing);
     }
-	void layerToggled(RS_Layer*) override{
-        redraw(RS2::RedrawDrawing); 
+    void layerToggled(RS_Layer*) override{
+        redraw(RS2::RedrawDrawing);
     }
-	void layerActivated(RS_Layer *) override;
+    void layerActivated(RS_Layer *) override;
     /**
      * @brief setOffset
      * @param ox, offset X
      * @param oy, offset Y
      */
-	void setOffset(int ox, int oy) override;
+    void setOffset(int ox, int oy) override;
     /**
      * @brief getMousePosition() mouse position in widget coordinates
      * @return the cursor position in widget coordinates
      * returns the widget center, if cursor is not on the widget
      */
-	RS_Vector getMousePosition() const override;
+    RS_Vector getMousePosition() const override;
 
     void setAntialiasing(bool state);
     void setCursorHiding(bool state);
@@ -146,14 +147,14 @@ protected:
     std::unique_ptr<QCursor> curMagnifier;
     //! Hand mouse cursor
     std::unique_ptr<QCursor> curHand;
-		
-	// Used for buffering different paint layers
-	std::unique_ptr<QPixmap> PixmapLayer1;  // Used for grids and absolute 0
+
+    // Used for buffering different paint layers
+    std::unique_ptr<QPixmap> PixmapLayer1;  // Used for grids and absolute 0
     std::unique_ptr<QPixmap> PixmapLayer2;  // Used for the actual CAD drawing
     std::unique_ptr<QPixmap> PixmapLayer3;  // Used for crosshair and actionitems
-	
-	RS2::RedrawMethod redrawMethod;
-		
+
+    RS2::RedrawMethod redrawMethod;
+
     //! Keep tracks of if we are currently doing a high-resolution scrolling
     bool isSmoothScrolling;
 

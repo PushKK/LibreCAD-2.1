@@ -24,6 +24,7 @@
 ** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #ifndef QG_CADTOOLBARSELECT_H
 #define QG_CADTOOLBARSELECT_H
 
@@ -38,7 +39,7 @@ class QG_CadToolBarSelect : public LC_CadToolBarInterface
     Q_OBJECT
 
 public:
-	QG_CadToolBarSelect(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = 0);
+	QG_CadToolBarSelect(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = {});
 	~QG_CadToolBarSelect() = default;
 	RS2::ToolBarId rtti() const
 	{

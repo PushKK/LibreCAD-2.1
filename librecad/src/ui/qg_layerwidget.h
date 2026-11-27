@@ -91,7 +91,7 @@ class QG_LayerWidget: public QWidget, public RS_LayerListListener {
 
 public:
     QG_LayerWidget(QG_ActionHandler* ah, QWidget* parent,
-                   const char* name=0, Qt::WindowFlags f = 0);
+                   const char* name=0, Qt::WindowFlags fl = {});
 	~QG_LayerWidget() = default;
 
     void setLayerList(RS_LayerList* layerList, bool showByBlock);
@@ -152,7 +152,7 @@ private:
     QLineEdit* matchLayerName;
     QTableView* layerView;
     QG_LayerModel *layerModel;
-    RS_Layer* lastLayer;   
+    RS_Layer* lastLayer;
     QG_ActionHandler* actionHandler;
 };
 

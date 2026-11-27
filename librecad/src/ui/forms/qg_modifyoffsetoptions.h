@@ -29,8 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #ifndef QG_MODIFYOFFSETOPTIONS_H
 #define QG_MODIFYOFFSETOPTIONS_H
 
-#include<memory>
-#include<QWidget>
+#include <memory>
+#include <QWidget>
 
 class RS_ActionInterface;
 class RS_ActionDrawModifyOffset;
@@ -43,7 +43,7 @@ class QG_ModifyOffsetOptions : public QWidget
     Q_OBJECT
 
 public:
-    QG_ModifyOffsetOptions(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    QG_ModifyOffsetOptions(QWidget* parent = 0, Qt::WindowFlags fl = {});
     ~QG_ModifyOffsetOptions();
 
 public slots:

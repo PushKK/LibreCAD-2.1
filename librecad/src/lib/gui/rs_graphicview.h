@@ -24,7 +24,6 @@
 **
 **********************************************************************/
 
-
 #ifndef RS_GRAPHICVIEW_H
 #define RS_GRAPHICVIEW_H
 
@@ -47,7 +46,6 @@ class RS_CommandEvent;
 class RS_Grid;
 struct RS_LineTypePattern;
 
-
 /**
  * This class is a common GUI interface for the graphic viewer
  * widget which has to be implementet by real GUI classes such
@@ -56,12 +54,13 @@ struct RS_LineTypePattern;
  * Note that this is just an interface used as a slot to
  * communicate with the LibreCAD from a GUI level.
  */
+
 class RS_GraphicView : public QWidget
 {
     Q_OBJECT
 
 public:
-	RS_GraphicView(QWidget * parent = 0, Qt::WindowFlags f = 0);
+	RS_GraphicView(QWidget * parent = 0, Qt::WindowFlags fl = {});
 	virtual ~RS_GraphicView();
 
     void cleanUp();

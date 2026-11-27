@@ -23,6 +23,7 @@
 ** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #ifndef QG_CADTOOLBARARCS_H
 #define QG_CADTOOLBARARCS_H
 
@@ -36,7 +37,7 @@ class QG_CadToolBarArcs : public LC_CadToolBarInterface
     Q_OBJECT
 
 public:
-	QG_CadToolBarArcs(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = 0);
+	QG_CadToolBarArcs(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = {});
 	~QG_CadToolBarArcs() = default;
     void restoreAction(); //restore action from checked button
 	virtual void resetToolBar();

@@ -15,14 +15,15 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 **
-** This copyright notice MUST APPEAR in all copies of the script!  
+** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #ifndef QG_DLGSCALE_H
 #define QG_DLGSCALE_H
 
@@ -35,7 +36,7 @@ class QG_DlgScale : public QDialog, public Ui::QG_DlgScale
     Q_OBJECT
 
 public:
-    QG_DlgScale(QWidget* parent = 0, bool modal = false, Qt::WindowFlags fl = 0);
+    QG_DlgScale(QWidget* parent = 0, bool modal = false, Qt::WindowFlags fl = {});
     ~QG_DlgScale();
 
 public slots:

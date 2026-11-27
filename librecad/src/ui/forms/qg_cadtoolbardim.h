@@ -23,6 +23,7 @@
 ** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #ifndef QG_CADTOOLBARDIM_H
 #define QG_CADTOOLBARDIM_H
 
@@ -36,7 +37,7 @@ class QG_CadToolBarDim : public LC_CadToolBarInterface
     Q_OBJECT
 
 public:
-	QG_CadToolBarDim(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = 0);
+	QG_CadToolBarDim(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = {});
 	~QG_CadToolBarDim() = default;
 	virtual void restoreAction(); //restore action from checked button
 	RS2::ToolBarId rtti() const

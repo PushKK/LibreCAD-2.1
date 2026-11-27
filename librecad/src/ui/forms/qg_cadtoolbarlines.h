@@ -23,6 +23,7 @@
 ** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #ifndef QG_CADTOOLBARLINES_H
 #define QG_CADTOOLBARLINES_H
 
@@ -36,7 +37,7 @@ class QG_CadToolBarLines : public LC_CadToolBarInterface
     Q_OBJECT
 
 public:
-	QG_CadToolBarLines(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = 0);
+	QG_CadToolBarLines(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = {});
 	~QG_CadToolBarLines() = default;
 	virtual void restoreAction(); //restore action from checked button
 	RS2::ToolBarId rtti() const

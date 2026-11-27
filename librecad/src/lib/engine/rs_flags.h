@@ -23,6 +23,7 @@
 ** This copyright notice MUST APPEAR in all copies of the script!  
 **
 **********************************************************************/
+
 #ifndef RS_FLAGS_H
 #define RS_FLAGS_H
 
@@ -31,10 +32,11 @@
  *
  * @author Andrew Mustun
  */
+
 struct RS_Flags {
 	//! \{Constructor with initialisation to the given flags.
 	//! Default sets all flags to 0
-	RS_Flags(unsigned f = 0);
+	RS_Flags(unsigned fl = {});
 	//! \}
 
 	virtual ~RS_Flags() = default;

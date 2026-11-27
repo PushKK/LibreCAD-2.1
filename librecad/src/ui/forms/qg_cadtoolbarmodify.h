@@ -23,6 +23,7 @@
 ** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #ifndef QG_CADTOOLBARMODIFY_H
 #define QG_CADTOOLBARMODIFY_H
 
@@ -37,7 +38,7 @@ class QG_CadToolBarModify : public LC_CadToolBarInterface
     Q_OBJECT
 
 public:
-	QG_CadToolBarModify(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = 0);
+	QG_CadToolBarModify(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = {});
 	~QG_CadToolBarModify() = default;
     //restore action from checked button
 	virtual void restoreAction();

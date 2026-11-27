@@ -23,6 +23,7 @@
 ** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #ifndef QG_CADTOOLBARELLIPSES_H
 #define QG_CADTOOLBARELLIPSES_H
 
@@ -36,7 +37,7 @@ class QG_CadToolBarEllipses : public LC_CadToolBarInterface
     Q_OBJECT
 
 public:
-	QG_CadToolBarEllipses(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = 0);
+	QG_CadToolBarEllipses(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = {});
 	~QG_CadToolBarEllipses() = default;
     //restore action from checked button
 	virtual void restoreAction();

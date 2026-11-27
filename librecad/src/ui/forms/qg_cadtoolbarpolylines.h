@@ -23,6 +23,7 @@
 ** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #ifndef QG_CADTOOLBARPOLYLINES_H
 #define QG_CADTOOLBARPOLYLINES_H
 
@@ -36,7 +37,7 @@ class QG_CadToolBarPolylines : public LC_CadToolBarInterface
     Q_OBJECT
 
 public:
-	QG_CadToolBarPolylines(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = 0);
+	QG_CadToolBarPolylines(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = {});
 	~QG_CadToolBarPolylines() = default;
     //restore action from checked button
 	virtual void restoreAction();

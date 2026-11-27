@@ -23,6 +23,7 @@
 ** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #ifndef QG_CADTOOLBARCIRCLES_H
 #define QG_CADTOOLBARCIRCLES_H
 
@@ -36,7 +37,7 @@ class QG_CadToolBarCircles : public LC_CadToolBarInterface
     Q_OBJECT
 
 public:
-	QG_CadToolBarCircles(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = 0);
+	QG_CadToolBarCircles(QG_CadToolBar* parent = 0, Qt::WindowFlags fl = {});
 	~QG_CadToolBarCircles() = default;
     //restore action from checked button
 	virtual void restoreAction();

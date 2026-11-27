@@ -15,18 +15,20 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 **
-** This copyright notice MUST APPEAR in all copies of the script!  
+** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #ifndef QG_COMMANDWIDGET_H
 #define QG_COMMANDWIDGET_H
 
 #include "ui_qg_commandwidget.h"
+
 class QG_ActionHandler;
 
 class QG_CommandWidget : public QWidget, public Ui::QG_CommandWidget
@@ -34,7 +36,7 @@ class QG_CommandWidget : public QWidget, public Ui::QG_CommandWidget
     Q_OBJECT
 
 public:
-    QG_CommandWidget(QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = 0);
+    QG_CommandWidget(QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = {});
     ~QG_CommandWidget();
 
     virtual bool eventFilter(QObject *obj, QEvent *event);

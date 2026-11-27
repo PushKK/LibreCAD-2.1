@@ -23,11 +23,12 @@
 ** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #ifndef QG_MTEXTOPTIONS_H
 #define QG_MTEXTOPTIONS_H
 
-#include<memory>
-#include<QWidget>
+#include <memory>
+#include <QWidget>
 
 class RS_ActionInterface;
 class RS_ActionDrawMText;
@@ -40,7 +41,7 @@ class QG_MTextOptions : public QWidget
     Q_OBJECT
 
 public:
-    QG_MTextOptions(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    QG_MTextOptions(QWidget* parent = 0, Qt::WindowFlags fl = {});
     ~QG_MTextOptions();
 
 public slots:

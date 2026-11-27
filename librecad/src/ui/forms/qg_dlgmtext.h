@@ -23,6 +23,7 @@
 ** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
+
 #ifndef QG_DLGMTEXT_H
 #define QG_DLGMTEXT_H
 
@@ -34,7 +35,7 @@ class QG_DlgMText : public QDialog, public Ui::QG_DlgMText
     Q_OBJECT
 
 public:
-    QG_DlgMText(QWidget* parent = 0, bool modal = false, Qt::WindowFlags fl = 0);
+    QG_DlgMText(QWidget* parent = 0, bool modal = false, Qt::WindowFlags fl = {});
     ~QG_DlgMText();
 
     virtual int getAlignment();
