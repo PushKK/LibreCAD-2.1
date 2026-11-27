@@ -143,10 +143,18 @@ public slots:
     void slotFileSaveAs();
     /** auto-save document */
     void slotFileAutoSave();
+// Импорт файла как блока
+    void slotImportBlock();
+// Импорт шрифта
+    void slotImportFont();
+// Импорт точек
+    void slotImportAscii();
     /** exports the document as bitmap */
     void slotFileExport();
     bool slotFileExport(const QString& name, const QString& format,
                 QSize size, QSize borders, bool black, bool bw=true);
+// Экспорт точек
+    void slotExportAscii();
     /** closing the current file */
     void slotFileClosing(QC_MDIWindow*);
     /** prints the current file */
@@ -165,10 +173,6 @@ public slots:
     void slotViewStatusBar(bool toggle);
 
     void slotOptionsGeneral();
-// Импорт файла как блока
-    void slotImportBlock();
-// Импорт шрифта
-    void slotImportFont();
 
     /** shows an about dlg*/
     void showAboutWindow();

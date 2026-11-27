@@ -83,6 +83,7 @@
 #include "qg_recentfiles.h"
 #include "qg_dlgimageoptions.h"
 #include "lc_dlgttf2lff.h"
+#include "lc_dlgasciifile.h"
 #include "doc_plugin_interface.h"
 #include "qg_filedialog.h"
 
@@ -3307,4 +3308,29 @@ void QC_ApplicationWindow::changeEvent(QEvent* event)
             }
         }
     #endif
+}
+
+void QC_ApplicationWindow::slotImportAscii() {
+    RS_GraphicView* view = getGraphicView();
+    RS_Document* doc = getDocument();
+    if (!view || !doc) return;
+
+    Doc_plugin_interface dpi(doc, view, this);
+    dibPunto dlg(this, false);
+    if (dlg.exec() == QDialog::Accepted) {
+        dlg.procesFile(&dpi);
+        view->redraw(RS2::RedrawAll);
+    }
+}
+
+void QC_ApplicationWindow::slotExportAscii() {
+    RS_GraphicView* view = getGraphicView();
+    RS_Document* doc = getDocument();
+    if (!view || !doc) return;
+
+    Doc_plugin_interface dpi(doc, view, this);
+    dibPunto dlg(this, true);
+    if (dlg.exec() == QDialog::Accepted) {
+        dlg.exportFile(&dpi);
+    }
 }

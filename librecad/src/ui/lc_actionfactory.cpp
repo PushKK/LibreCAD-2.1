@@ -1046,6 +1046,12 @@ void LC_ActionFactory::fillActionContainer(QMap<QString, QAction*>& a_map, LC_Ac
     action->setObjectName("FontImport");
     a_map["FontImport"] = action;
 
+// Import Points ASCII
+    action = new QAction(tr("Read ascii points"), agm->file);
+    connect(action, SIGNAL(triggered()), main_window, SLOT(slotImportAscii()));
+    action->setObjectName("FileImportAscii");
+    a_map["FileImportAscii"] = action;
+
 // Export
 // Export as SVG
     action = new QAction(tr("Export as &MakerCAM SVG..."), agm->file);
@@ -1066,6 +1072,12 @@ void LC_ActionFactory::fillActionContainer(QMap<QString, QAction*>& a_map, LC_Ac
     connect(action, SIGNAL( triggered()), main_window, SLOT(slotFileExport()));
     action->setObjectName("FileExport");
     a_map["FileExport"] = action;
+
+// Export Points ASCII
+    action = new QAction(tr("Export ascii points"), agm->file);
+    connect(action, SIGNAL(triggered()), main_window, SLOT(slotExportAscii()));
+    action->setObjectName("FileExportAscii");
+    a_map["FileExportAscii"] = action;
 
     // <[~ View ~]>
 

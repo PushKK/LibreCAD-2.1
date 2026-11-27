@@ -597,7 +597,8 @@ RESOURCES += ../res/icons/icons.qrc
 
 # ################################################################################
 # UI
-HEADERS += ui/forms/lc_dlgsplinepoints.h \
+HEADERS += ui/forms/lc_dlgasciifile.h \
+    ui/forms/lc_dlgsplinepoints.h \
     ui/forms/lc_dlgttf2lff.h \
     ui/forms/lc_widgetoptionsdialog.h \
     ui/forms/qg_activelayername.h \
@@ -699,7 +700,7 @@ HEADERS += ui/forms/lc_dlgsplinepoints.h \
     ui/qg_widthbox.h \
     ui/twostackedlabels.h
 
-SOURCES += ui/lc_actionfactory.cpp \
+SOURCES += ui/forms/lc_dlgasciifile.cpp \
     ui/forms/lc_dlgsplinepoints.cpp \
     ui/forms/lc_dlgttf2lff.cpp \
     ui/forms/lc_widgetoptionsdialog.cpp \
@@ -774,6 +775,7 @@ SOURCES += ui/lc_actionfactory.cpp \
     ui/generic/comboboxoption.cpp \
     ui/generic/linklist.cpp \
     ui/generic/widgetcreator.cpp \
+    ui/lc_actionfactory.cpp \
     ui/lc_actiongroupmanager.cpp \
     ui/lc_centralwidget.cpp \
     ui/lc_deviceoptions.cpp \

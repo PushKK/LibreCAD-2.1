@@ -10,7 +10,6 @@ TARGET = plugins
 QT += gui
 
 SUBDIRS     = \
-        asciifile \
         align \
         list \
         sameprop \

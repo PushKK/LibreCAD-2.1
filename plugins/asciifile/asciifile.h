@@ -32,15 +32,13 @@ class QVBoxLayout;
 class AsciiFile : public QObject, QC_PluginInterface
 {
     Q_OBJECT
-     Q_INTERFACES(QC_PluginInterface)
-#if QT_VERSION >= 0x050000
-     Q_PLUGIN_METADATA(IID "org.librecad.asciifile" FILE  "asciifile.json")
-#endif
+    Q_INTERFACES(QC_PluginInterface)
+    Q_PLUGIN_METADATA(IID "org.librecad.asciifile" FILE  "asciifile.json")
 
  public:
-     virtual PluginCapabilities getCapabilities() const;
-     virtual QString name() const;
-     virtual void execComm(Document_Interface *doc,
+    virtual PluginCapabilities getCapabilities() const;
+    virtual QString name() const;
+    virtual void execComm(Document_Interface *doc,
                                         QWidget *parent, QString cmd);
 };
 
@@ -99,7 +97,7 @@ class imgLabel : public QLabel
     Q_OBJECT
 
 public:
-    imgLabel(QWidget * parent = 0, Qt::WindowFlags f = 0 );
+    imgLabel(QWidget * parent = 0, Qt::WindowFlags fl = {} );
     ~imgLabel(){}
 
     void setPos(DPT::txtposition pos = DPT::N);
@@ -117,7 +115,7 @@ private:
     DPT::txtposition currPos;
 };
 
-/***********/
+
 class pointBox : public QGroupBox
 {
     Q_OBJECT
@@ -136,7 +134,7 @@ private:
     QVBoxLayout *vbox;
 };
 
-/***********/
+
 class textBox : public pointBox
 {
     Q_OBJECT
@@ -164,7 +162,7 @@ private:
     QLineEdit *sepedit;
     imgLabel *img;
 };
-/***********/
+
 class pointData
 {
 public:
@@ -174,5 +172,5 @@ public:
     QString z;
     QString code;
 };
-/***********/
-#endif // ECHOPLUG_H
+
+#endif

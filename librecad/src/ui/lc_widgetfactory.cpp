@@ -564,11 +564,13 @@ void LC_WidgetFactory::createMenus(QMenuBar* menu_bar)
     sub_menu->addAction(a_map["DrawImage"]);
     sub_menu->addAction(a_map["BlocksImport"]);
     sub_menu->addAction(a_map["FontImport"]);
+    sub_menu->addAction(a_map["FileImportAscii"]);
     sub_menu = file_menu->addMenu(QIcon(":/icons/export.svg"), QC_ApplicationWindow::tr("Export"));
     sub_menu->setObjectName("Export");
     sub_menu->addAction(a_map["FileExportMakerCam"]);
     sub_menu->addAction(a_map["FilePrintPDF"]);
     sub_menu->addAction(a_map["FileExport"]);
+    sub_menu->addAction(a_map["FileExportAscii"]);
     file_menu->addSeparator();
     file_menu->addAction(a_map["FilePrint"]);
     file_menu->addAction(a_map["FilePrintPreview"]);
