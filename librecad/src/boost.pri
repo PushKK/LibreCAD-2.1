@@ -86,7 +86,16 @@ unix {
         isEmpty( BOOST_DIR ) {
             error( Boost installation not found. )
         } else {
-            message( Found Boost in $${BOOST_DIR} )
+            BOOST_VER_FILE = $${BOOST_DIR}/include/boost/version.hpp
+            exists($$BOOST_VER_FILE) {
+                VER_CONTENT = $$cat($$BOOST_VER_FILE, lines)
+                VER_LINE = $$find(VER_CONTENT, "define BOOST_LIB_VERSION")
+                VER_WORDS = $$split(VER_LINE, " ")
+                BOOST_LIB_VERSION = $$last(VER_WORDS)
+                BOOST_LIB_VERSION = $$replace(BOOST_LIB_VERSION, "\"", "")
+                BOOST_LIB_VERSION = $$replace(BOOST_LIB_VERSION, "_", ".")
+            }
+            message( Found Boost v. $${BOOST_LIB_VERSION} in $${BOOST_DIR} )
         }
 
     }
