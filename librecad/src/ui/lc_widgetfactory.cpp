@@ -354,6 +354,7 @@ void LC_WidgetFactory::createStandardToolbars(QG_ActionHandler* action_handler)
     view_toolbar->setSizePolicy(toolBarPolicy);
     view_toolbar->addAction(a_map["ViewGrid"]);
     view_toolbar->addAction(a_map["ViewDraft"]);
+    view_toolbar->addAction(a_map["ViewDirectionArrows"]);
     view_toolbar->addSeparator();
     view_toolbar->addAction(a_map["ZoomRedraw"]);
     view_toolbar->addAction(a_map["ZoomIn"]);
@@ -855,3 +856,4 @@ void LC_WidgetFactory::createMenus(QMenuBar* menu_bar)
     menu_bar->addMenu(windows_menu);
     menu_bar->addMenu(help_menu);
 }
+

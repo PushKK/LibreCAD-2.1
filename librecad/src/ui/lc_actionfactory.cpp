@@ -1122,6 +1122,18 @@ void LC_ActionFactory::fillActionContainer(QMap<QString, QAction*>& a_map, LC_Ac
     action->setObjectName("ViewDraft");
     a_map["ViewDraft"] = action;
 
+// Отображать стрелки на концах элементов
+    action = new QAction(tr("Direction Arrows"), agm->view);
+    action->setIcon(QIcon(":/icons/direct.svg"));
+    action->setCheckable(true);
+// Кнопка по умолчанию нажата
+//    RS_SETTINGS->beginGroup("/Appearance");
+//    action->setChecked(RS_SETTINGS->readNumEntry("/ShowDirectionArrows", 0) != 0);
+//    RS_SETTINGS->endGroup();
+    connect(action, SIGNAL(toggled(bool)), main_window, SLOT(slotViewDirectionArrows(bool)));
+    action->setObjectName("ViewDirectionArrows");
+    a_map["ViewDirectionArrows"] = action;
+
     action = new QAction(tr("&Statusbar"), agm->view);
     action->setCheckable(true);
     action->setChecked(true);

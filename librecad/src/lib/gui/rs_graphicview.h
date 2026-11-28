@@ -361,6 +361,11 @@ public:
 	bool isDraftMode() const;
 
 	void setDraftMode(bool dm);
+
+// Отображать стрелки на концах элементов
+	void setShowDirectionArrows(bool on);
+	bool isShowDirectionArrows() const { return showDirectionArrows; }
+
 	bool isCleanUp(void) const;
 
 	virtual RS_EntityContainer* getOverlayContainer(RS2::OverlayGraphics position);
@@ -419,6 +424,9 @@ private:
 
 	bool zoomFrozen=false;
 	bool draftMode=false;
+// Отображать стрелки на концах элементов
+	void drawDirectionMarkers(RS_Painter* painter, RS_Entity* e);
+	bool showDirectionArrows = false;
 
 	RS_Vector factor=RS_Vector(1.,1.);
 	int offsetX=0;

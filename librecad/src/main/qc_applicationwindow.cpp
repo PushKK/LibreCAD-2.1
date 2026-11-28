@@ -2254,6 +2254,14 @@ void QC_ApplicationWindow::slotViewDraft(bool toggle)
     redrawAll();
 }
 
+// Отображать стрелки на концах элементов
+void QC_ApplicationWindow::slotViewDirectionArrows(bool on) {
+    RS_GraphicView* view = getGraphicView();
+    if (view) {
+        view->setShowDirectionArrows(on);
+    }
+}
+
 /**
  * Redraws all mdi windows.
  */

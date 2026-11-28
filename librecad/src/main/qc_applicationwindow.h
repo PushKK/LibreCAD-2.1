@@ -169,6 +169,8 @@ public slots:
     void slotViewGrid(bool toggle);
     /** toggle the draft mode */
     void slotViewDraft(bool toggle);
+// Отображать стрелки на концах элементов
+    void slotViewDirectionArrows(bool on);
     /** toggle the statusbar */
     void slotViewStatusBar(bool toggle);
 

@@ -25,30 +25,33 @@
 **
 **********************************************************************/
 
-#include<climits>
-#include<cmath>
+#include "rs_graphicview.h"
 
+#include <climits>
+#include <cmath>
+#include <QPolygon>
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QAction>
 #include <QMouseEvent>
 #include <QtAlgorithms>
 
-#include "rs_graphicview.h"
-
-#include "rs_line.h"
-#include "rs_linetypepattern.h"
+#include "lc_splinepoints.h"
+#include "rs_arc.h"
+#include "rs_debug.h"
+#include "rs_dialogfactory.h"
 #include "rs_eventhandler.h"
 #include "rs_graphic.h"
 #include "rs_grid.h"
-#include "rs_painter.h"
-#include "rs_mtext.h"
-#include "rs_text.h"
-#include "rs_settings.h"
-#include "rs_dialogfactory.h"
 #include "rs_layer.h"
+#include "rs_line.h"
+#include "rs_linetypepattern.h"
 #include "rs_math.h"
-#include "rs_debug.h"
+#include "rs_mtext.h"
+#include "rs_painter.h"
+#include "rs_settings.h"
+#include "rs_spline.h"
+#include "rs_text.h"
 
 #ifdef EMU_C99
 #include "emu_c99.h"
@@ -76,6 +79,10 @@ RS_GraphicView::RS_GraphicView(QWidget* parent, Qt::WindowFlags f)
     setStartHandleColor(QColor(RS_SETTINGS->readEntry("/start_handle", Colors::start_handle)));
     setHandleColor(QColor(RS_SETTINGS->readEntry("/handle", Colors::handle)));
     setEndHandleColor(QColor(RS_SETTINGS->readEntry("/end_handle", Colors::end_handle)));
+// Отображать стрелки на концах элементов
+    RS_SETTINGS->beginGroup("/Appearance");
+    showDirectionArrows = (RS_SETTINGS->readNumEntry("/ShowDirectionArrows", 0) != 0);
+
     RS_SETTINGS->endGroup();
 }
 
@@ -101,7 +108,6 @@ void RS_GraphicView::setContainer(RS_EntityContainer* container) {
 }
 
 
-
 /**
  * Sets the zoom factor in X for this visualization of the graphic.
  */
@@ -110,7 +116,6 @@ void RS_GraphicView::setFactorX(double f) {
 		factor.x = fabs(f);
 	}
 }
-
 
 
 /**
@@ -208,6 +213,111 @@ void RS_GraphicView::centerY(double v) {
 	}
 }
 
+// Отображать стрелки на концах элементов
+void RS_GraphicView::setShowDirectionArrows(bool on) {
+    showDirectionArrows = on;
+    RS_SETTINGS->beginGroup("/Appearance");
+    RS_SETTINGS->writeEntry("/ShowDirectionArrows", on ? 1 : 0);
+    RS_SETTINGS->endGroup();
+    redraw(RS2::RedrawDrawing);
+}
+
+void RS_GraphicView::drawDirectionMarkers(RS_Painter* painter, RS_Entity* e) {
+    if (!showDirectionArrows || !painter || !e) return;
+    if (!e->isSelected()) return;
+    if (isPrinting() || isPrintPreview()) return;
+
+    RS_Vector startPt, endPt;
+    double dirAngle = 0.0; // угол направления касательной в экранных (GUI) координатах
+
+    switch (e->rtti()) {
+    case RS2::EntityLine: {
+        startPt = e->getStartpoint();
+        endPt   = e->getEndpoint();
+        if (!startPt.valid || !endPt.valid) return;
+        double gx1 = toGuiX(startPt.x), gy1 = toGuiY(startPt.y);
+        double gx2 = toGuiX(endPt.x),   gy2 = toGuiY(endPt.y);
+        if (std::hypot(gx2 - gx1, gy2 - gy1) < 2.0) return;
+        dirAngle = std::atan2(gy2 - gy1, gx2 - gx1);
+        break;
+    }
+    case RS2::EntityArc: {
+        auto* arc = static_cast<RS_Arc*>(e);
+        startPt = arc->getStartpoint();
+        endPt   = arc->getEndpoint();
+        if (!startPt.valid || !endPt.valid) return;
+        // Касательная к дуге в конечной точке в мировых координатах:
+        // против часовой стрелки (!reversed) -> angle2 + PI/2, по часовой -> angle2 - PI/2
+        double tangentWorld = arc->getAngle2() + (arc->isReversed() ? -M_PI_2 : M_PI_2);
+        double gx = toGuiX(endPt.x), gy = toGuiY(endPt.y);
+        double gxNext = toGuiX(endPt.x + std::cos(tangentWorld));
+        double gyNext = toGuiY(endPt.y + std::sin(tangentWorld));
+        dirAngle = std::atan2(gyNext - gy, gxNext - gx);
+        break;
+    }
+    case RS2::EntitySpline: {
+        auto* sp = static_cast<RS_Spline*>(e);
+        const auto& pts = sp->getData().controlPoints;
+        if (pts.size() < 2) return;
+        startPt = pts.front();
+        endPt   = pts.back();
+        RS_Vector prevPt = pts[pts.size() - 2];
+        double gx1 = toGuiX(prevPt.x), gy1 = toGuiY(prevPt.y);
+        double gx2 = toGuiX(endPt.x),  gy2 = toGuiY(endPt.y);
+        dirAngle = std::atan2(gy2 - gy1, gx2 - gx1);
+        break;
+    }
+    case RS2::EntitySplinePoints: {
+        auto* sp = static_cast<LC_SplinePoints*>(e);
+        startPt = sp->getStartpoint();
+        endPt   = sp->getEndpoint();
+        if (!startPt.valid || !endPt.valid) return;
+        const auto& pts = sp->getData().splinePoints.empty()
+                          ? sp->getData().controlPoints
+                          : sp->getData().splinePoints;
+        RS_Vector prevPt = (pts.size() >= 2) ? pts[pts.size() - 2] : startPt;
+        double gx1 = toGuiX(prevPt.x), gy1 = toGuiY(prevPt.y);
+        double gx2 = toGuiX(endPt.x),  gy2 = toGuiY(endPt.y);
+        dirAngle = std::atan2(gy2 - gy1, gx2 - gx1);
+        break;
+    }
+    default:
+        return;
+    }
+
+    double sx = toGuiX(startPt.x);
+    double sy = toGuiY(startPt.y);
+    double ex = toGuiX(endPt.x);
+    double ey = toGuiY(endPt.y);
+
+    // 1. Зелёный круг в точке начала (Startpoint)
+    RS_Pen startPen(RS_Color(0, 230, 0), RS2::Width00, RS2::SolidLine);
+    painter->setPen(startPen);
+    painter->setBrush(RS_Color(0, 200, 0));
+    painter->drawCircle(RS_Vector(sx, sy), 4.5);
+
+    // 2. Красная стрелка (треугольник) в точке конца (Endpoint)
+    const double arrowLen = 14.0;
+    const double arrowHalfWidth = 5.0;
+    double backX = ex - arrowLen * std::cos(dirAngle);
+    double backY = ey - arrowLen * std::sin(dirAngle);
+    double perpX = -std::sin(dirAngle) * arrowHalfWidth;
+    double perpY =  std::cos(dirAngle) * arrowHalfWidth;
+
+    QPolygon arrow;
+    arrow << QPoint(ex, ey)
+          << QPoint(backX + perpX, backY + perpY)
+          << QPoint(backX - perpX, backY - perpY);
+
+    RS_Pen endPen(RS_Color(255, 60, 60), RS2::Width00, RS2::SolidLine);
+    painter->setPen(endPen);
+    painter->setBrush(RS_Color(230, 40, 40));
+    painter->drawPolygon(arrow);
+
+    // Сбрасываем заливку, чтобы не повлиять на последующие примитивы
+    painter->setBrush(QBrush(Qt::NoBrush));
+}
+
 /**
  * @return Current action or nullptr.
  */
@@ -218,7 +328,6 @@ RS_ActionInterface* RS_GraphicView::getDefaultAction() {
         return nullptr;
 	}
 }
-
 
 
 /**
@@ -244,7 +353,6 @@ RS_ActionInterface* RS_GraphicView::getCurrentAction() {
 }
 
 
-
 /**
  * Sets the current action of the event handler.
  */
@@ -268,7 +376,6 @@ void RS_GraphicView::killSelectActions() {
 }
 
 
-
 /**
  * Kills all running actions.
  */
@@ -277,7 +384,6 @@ void RS_GraphicView::killAllActions() {
 		eventHandler->killAllActions();
 	}
 }
-
 
 
 /**
@@ -290,6 +396,7 @@ void RS_GraphicView::back()
 		eventHandler->back();
     }
 }
+
 
 /**
  * Go forward with the current action.
@@ -328,7 +435,6 @@ void RS_GraphicView::disableCoordinateInput() {
 		eventHandler->disableCoordinateInput();
 	}
 }
-
 
 
 /**
@@ -1187,17 +1293,19 @@ void RS_GraphicView::drawEntity(RS_Painter *painter, RS_Entity* e, double& patte
  * The painter must be initialized and all the attributes (pen) must be set.
  */
 void RS_GraphicView::drawEntityPlain(RS_Painter *painter, RS_Entity* e, double& patternOffset) {
-	if (!e) {
-		return;
-	}
-
-	if (!e->isContainer() && (e->isSelected()!=painter->shouldDrawSelected())) {
-		return;
-	}
-
-	e->draw(painter, this, patternOffset);
-
+    if (!e) {
+	return;
 }
+
+    if (!e->isContainer() && (e->isSelected()!=painter->shouldDrawSelected())) {
+	return;
+}
+
+    e->draw(painter, this, patternOffset);
+// Отображать стрелки на концах элементов
+    drawDirectionMarkers(painter, e);
+}
+
 void RS_GraphicView::drawEntityPlain(RS_Painter *painter, RS_Entity* e) {
 	if (!e) {
 		return;
@@ -1209,6 +1317,7 @@ void RS_GraphicView::drawEntityPlain(RS_Painter *painter, RS_Entity* e) {
 	double patternOffset(0.);
 	e->draw(painter, this, patternOffset);
 }
+
 /**
  * Deletes an entity with the background color.
  * Might be recusively called e.g. for polylines.
@@ -1222,8 +1331,6 @@ void RS_GraphicView::deleteEntity(RS_Entity* e) {
 	setDeleteMode(false);
 	redraw(RS2::RedrawDrawing);
 }
-
-
 
 
 /**
@@ -1480,7 +1587,6 @@ void RS_GraphicView::drawGrid(RS_Painter *painter) {
 }
 
 
-
 /**
  * Draws the meta grid.
  *
@@ -1614,14 +1720,12 @@ double RS_GraphicView::toGuiX(double x) const{
 }
 
 
-
 /**
  * Translates a real coordinate in Y to a screen coordinate Y.
  */
 double RS_GraphicView::toGuiY(double y) const{
 	return -y*factor.y + getHeight() - offsetY;
 }
-
 
 
 /**
@@ -1641,7 +1745,6 @@ double RS_GraphicView::toGuiDY(double d) const{
 }
 
 
-
 /**
  * Translates a vector in screen coordinates to a vector in real coordinates.
  */
@@ -1649,7 +1752,6 @@ RS_Vector RS_GraphicView::toGraph(RS_Vector v) const{
 	return RS_Vector(toGraphX(RS_Math::round(v.x)),
 					 toGraphY(RS_Math::round(v.y)));
 }
-
 
 
 /**
