@@ -605,6 +605,12 @@ void LC_ActionFactory::fillActionContainer(QMap<QString, QAction*>& a_map, LC_Ac
     action->setData("sortc, sort");
     a_map["ModifySortContour"] = action;
 
+    // Команда "Heal Gaps" для сшивки примитивов.
+    action = new QAction(tr("Heal Gaps"), agm->modify);
+    connect(action, SIGNAL(triggered()), action_handler, SLOT(slotModifyHealGaps()));
+    action->setObjectName("ModifyHealGaps");
+    a_map["ModifyHealGaps"] = action;
+
     action = new QAction(QIcon(":/icons/rotate.svg"), tr("&Rotate"), agm->modify);
     connect(action, SIGNAL(triggered()),
     action_handler, SLOT(slotModifyRotate()));

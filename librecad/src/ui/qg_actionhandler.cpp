@@ -123,6 +123,7 @@
 #include "rs_actionmodifymoverotate.h"
 #include "rs_actionmodifyrevertdirection.h"
 #include "rs_actionmodifysortcontour.h"
+#include "rs_actionmodifyhealgaps.h"
 #include "rs_actionmodifyrotate.h"
 #include "rs_actionmodifyrotate2.h"
 #include "rs_actionmodifyround.h"
@@ -634,6 +635,14 @@ RS_ActionInterface* QG_ActionHandler::setCurrentAction(RS2::ActionType id) {
     case RS2::ActionModifySortContourNoSelect:
 	a = new RS_ActionModifySortContour(*document, *view);
 	break;
+    case RS2::ActionModifyHealGaps:
+        if (!document->countSelected()) {
+            a = new RS_ActionSelect(this, *document, *view, RS2::ActionModifyHealGapsNoSelect);
+            break;
+        }
+    case RS2::ActionModifyHealGapsNoSelect:
+        a = new RS_ActionModifyHealGaps(*document, *view);
+        break;
     case RS2::ActionModifyRotate:
 	if(!document->countSelected()){
 		a = new RS_ActionSelect(this, *document, *view, RS2::ActionModifyRotateNoSelect);
@@ -1556,6 +1565,10 @@ void QG_ActionHandler::slotModifyRevertDirection() {
 
 void QG_ActionHandler::slotModifySortContour() {
 	setCurrentAction(RS2::ActionModifySortContour);
+}
+
+void QG_ActionHandler::slotModifyHealGaps() {
+    setCurrentAction(RS2::ActionModifyHealGaps);
 }
 
 void QG_ActionHandler::slotModifyRotate() {

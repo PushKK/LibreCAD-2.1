@@ -85,6 +85,7 @@
 #include "qg_libraryinsertoptions.h"
 #include "qg_lineangleoptions.h"
 #include "qg_linebisectoroptions.h"
+#include "qg_modifyhealgapsoptions.h"
 #include "qg_lineoptions.h"
 #include "qg_lineparalleloptions.h"
 #include "qg_lineparallelthroughoptions.h"
@@ -549,6 +550,10 @@ void QG_DialogFactory::requestOptions(RS_ActionInterface* action,
         requestLineBisectorOptions(action, on, update);
         break;
 
+    case RS2::ActionModifyHealGaps:
+        requestHealGapsOptions(action, on, update);
+        break;
+
     case RS2::ActionDrawLineOrthogonal:
     case RS2::ActionDrawLineRelAngle:
         requestLineRelAngleOptions(action, on, update);
@@ -873,6 +878,41 @@ void QG_DialogFactory::requestLineBisectorOptions(RS_ActionInterface* action,
     }
 }
 
+
+/**
+ * Shows a widget for options for the action: "heal gaps"
+ */
+void QG_DialogFactory::requestHealGapsOptions(RS_ActionInterface* action,
+        bool on, bool update) {
+
+
+        if (on) {
+            // Удаляем предыдущий экземпляр, если requestOptions вызвали повторно (например, при update=true)
+            if (auto* old = optionWidget->findChild<QG_ModifyHealGapsOptions*>()) {
+                delete old;
+            }
+            auto* toolWidget = new QG_ModifyHealGapsOptions(optionWidget);
+            optionWidget->addWidget(toolWidget);
+            toolWidget->setAction(action, update);
+        } else {
+            if (auto* old = optionWidget->findChild<QG_ModifyHealGapsOptions*>()) {
+                delete old;
+            }
+        }
+//	if (optionWidget) {
+//		static QG_ModifyHealGapsOptions* toolWidget = nullptr;
+//		if (toolWidget) {
+//            delete toolWidget;
+//			toolWidget = nullptr;
+//        }
+//		if (on) {
+//			toolWidget = new QG_ModifyHealGapsOptions(optionWidget);
+//            optionWidget->addWidget(toolWidget);
+//            toolWidget->setAction(action, update);
+//                        toolWidget->show();
+//        }
+//    }
+}
 
 
 /**
@@ -1876,5 +1916,3 @@ QString QG_DialogFactory::extToFormat(const QString& ext) {
         return ext.toUpper();
     }
 }
-
-

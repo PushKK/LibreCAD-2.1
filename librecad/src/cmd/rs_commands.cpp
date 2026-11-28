@@ -415,6 +415,12 @@ RS_Commands::RS_Commands() {
             {{"sort", QObject::tr("sort", "sort -  sort contour")}},
             RS2::ActionModifySortContour
         },
+        //gap
+        {
+        {{"heal", QObject::tr("heal", "heal - heal gaps")}},
+        {{"healgaps", QObject::tr("healgaps", "heal - heal gaps")}},
+            RS2::ActionModifyHealGaps
+        },
         //rotate
         {
             {{"rotate", QObject::tr("rotate", "modify - rotate")}},

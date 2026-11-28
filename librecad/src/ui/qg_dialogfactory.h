@@ -146,6 +146,8 @@ protected:
 												   bool on, bool update);
 	void requestLineBisectorOptions(RS_ActionInterface* action,
 											bool on, bool update);
+	void requestHealGapsOptions(RS_ActionInterface* action,
+											bool on, bool update);
 	void requestLinePolygonOptions(RS_ActionInterface* action,
 										   bool on, bool update);
 	void requestLinePolygon2Options(RS_ActionInterface* action,

@@ -186,6 +186,7 @@ public slots:
 	void slotModifyScale();
 	void slotModifyRevertDirection();
 	void slotModifySortContour();
+	void slotModifyHealGaps();
 	void slotModifyRotate();
 	void slotModifyMirror();
 	void slotModifyMoveRotate();

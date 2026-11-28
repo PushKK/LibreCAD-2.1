@@ -316,6 +316,8 @@ public:
 	ActionModifyRevertDirectionNoSelect,
 	ActionModifySortContour,
 	ActionModifySortContourNoSelect,
+        ActionModifyHealGaps,
+        ActionModifyHealGapsNoSelect,
         ActionModifyRotate2,
         ActionModifyRotate2NoSelect,
         ActionModifyEntity,

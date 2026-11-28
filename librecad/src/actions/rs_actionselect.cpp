@@ -67,6 +67,9 @@ void RS_ActionSelect::mouseReleaseEvent(QMouseEvent* e) {
     case RS2::ActionModifySortContourNoSelect:
         action_handler->slotModifySortContour();
         break;
+    case RS2::ActionModifyHealGapsNoSelect:
+        action_handler->slotModifyHealGaps();
+        break;
         }
 }
 
@@ -107,6 +110,9 @@ void RS_ActionSelect::updateMouseButtonHints() {
     case RS2::ActionModifySortContourNoSelect:
 	RS_DIALOGFACTORY->updateMouseWidget(tr("Select to sort contour"), tr("Cancel"));
 	break;
+    case RS2::ActionModifyHealGapsNoSelect:
+        RS_DIALOGFACTORY->updateMouseWidget(tr("Select contour to heal gaps"), tr("Cancel"));
+        break;
     case RS2::ActionModifyRotateNoSelect:
         RS_DIALOGFACTORY->updateMouseWidget(tr("Select to rotate"), tr("Cancel"));
         break;

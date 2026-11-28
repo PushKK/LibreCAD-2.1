@@ -408,6 +408,7 @@ HEADERS += actions/rs_actionblocksadd.h \
     actions/rs_actionmodifydeletefree.h \
     actions/rs_actionmodifydeletequick.h \
     actions/rs_actionmodifyentity.h \
+    actions/rs_actionmodifyhealgaps.h \
     actions/rs_actionmodifymirror.h \
     actions/rs_actionmodifymove.h \
     actions/rs_actionmodifymoverotate.h \
@@ -544,6 +545,7 @@ SOURCES += actions/rs_actionblocksadd.cpp \
     actions/rs_actionmodifydeletefree.cpp \
     actions/rs_actionmodifydeletequick.cpp \
     actions/rs_actionmodifyentity.cpp \
+    actions/rs_actionmodifyhealgaps.cpp \
     actions/rs_actionmodifymirror.cpp \
     actions/rs_actionmodifymove.cpp \
     actions/rs_actionmodifymoverotate.cpp \
@@ -654,6 +656,7 @@ HEADERS += ui/forms/lc_dlgasciifile.h \
     ui/forms/qg_linerelangleoptions.h \
     ui/forms/qg_modifyoffsetoptions.h \
     ui/forms/qg_mousewidget.h \
+    ui/forms/qg_modifyhealgapsoptions.h \
     ui/forms/qg_moverotateoptions.h \
     ui/forms/qg_mtextoptions.h \
     ui/forms/qg_polylineequidistantoptions.h \
@@ -756,6 +759,7 @@ SOURCES += ui/forms/lc_dlgasciifile.cpp \
     ui/forms/qg_linepolygonoptions.cpp \
     ui/forms/qg_linerelangleoptions.cpp \
     ui/forms/qg_modifyoffsetoptions.cpp \
+    ui/forms/qg_modifyhealgapsoptions.cpp \
     ui/forms/qg_mousewidget.cpp \
     ui/forms/qg_moverotateoptions.cpp \
     ui/forms/qg_mtextoptions.cpp \
