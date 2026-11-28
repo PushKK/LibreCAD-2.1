@@ -11,12 +11,12 @@ QT += gui
 
 SUBDIRS     = \
         align \
-        list \
-        sameprop \
         importshp \
-        sample \
+        list \
         picfile \
-        plotequation
+        plotequation \
+        sameprop \
+        sample
 
 TRANSLATIONS = ./ts/plugins_ar.ts \
     ./ts/plugins_ca.ts \
@@ -75,4 +75,3 @@ TRANSLATIONS = ./ts/plugins_ar.ts \
     ./ts/plugins_uk.ts \
     ./ts/plugins_zh_cn.ts \
     ./ts/plugins_zh_tw.ts
-
