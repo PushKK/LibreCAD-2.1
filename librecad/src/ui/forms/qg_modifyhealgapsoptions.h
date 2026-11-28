@@ -3,6 +3,7 @@
 
 #include <QWidget>
 
+class QLabel;
 class QLineEdit;
 class QCheckBox;
 class QPushButton;
@@ -26,12 +27,13 @@ protected:
     RS_ActionModifyHealGaps* action;
 
 protected slots:
-    virtual void languageChange();
+    void languageChange();
 
 private:
     void saveSettings();
 
     QLineEdit* leTolerance;
+    QLabel* lblTol;
     QCheckBox* cbCloseContour;
     QPushButton* pbApply;
 };

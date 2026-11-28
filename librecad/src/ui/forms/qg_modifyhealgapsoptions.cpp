@@ -25,7 +25,9 @@ QG_ModifyHealGapsOptions::QG_ModifyHealGapsOptions(QWidget* parent, Qt::WindowFl
     layout->setContentsMargins(4, 1, 4, 1);
     layout->setSpacing(6);
 
-    auto* lblTol = new QLabel(tr("Tolerance:"), this);
+// Проверить
+    lblTol = new QLabel(tr("Tolerance:"), this);
+//    auto* lblTol = new QLabel(tr("Tolerance:"), this);
     lblTol->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     leTolerance = new QLineEdit(this);
@@ -76,6 +78,9 @@ void QG_ModifyHealGapsOptions::languageChange()
 {
 // Проверить
 //	ui->retranslateUi(this);
+    lblTol->setText(tr("Tolerance:"));
+    cbCloseContour->setText(tr("Close contour"));
+    pbApply->setText(tr("Apply"));
 }
 
 void QG_ModifyHealGapsOptions::saveSettings() {
